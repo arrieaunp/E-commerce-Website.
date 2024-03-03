@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Styles/signup.css">
+    <title>Sign Up</title>
+</head>
+<body>
+    <div class="wrapper">
+       <form action="process_signup.php" method="post">
+        <h2>Sign Up</h2>
+
+        <div class="input-box">
+            <input type="text" name="Username" placeholder="Username" required>
+        </div>
+
+        <div class="input-box">
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+
+        <br>
+        <div class="input-box">
+            Name :
+            <input type="text" name="CustName" placeholder="Name" required>
+        </div>
+
+        <div class="input-box">
+            Address :
+            <input type="text" name="Address" placeholder="Address" required>
+        </div>
+
+        <div class="input-box">
+            Telephone :
+            <input type="text" name="Tel" placeholder="Tel" required>
+        </div>
+                    <br>
+            Sex : <br>
+            <input type='Radio' Name = sex value= M> Male
+            <input type='Radio' Name = sex value= F > Female
+            <br>
+
+        <br>
+        <div class="input-box button">
+            <input type="Submit" value="Sign Up">
+        </div>
+    </form> 
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Styles/signup.css">
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <form action="process_login.php" method="post">
+            <h2>Login</h2>
+            <div class="input-box">
+                <input type="text" name="Username" placeholder="Username" required>
+            </div>
+
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Password" >
+            </div>
+            
+            <div class="remember-forgot">
+                <label><input type="checkbox"> Remember me</label>
+                <br>
+                <a href="#"> Forgot password?</a> 
+            </div>
+
+            <div class="input-box button">
+                <input type="Submit" value="Login">
+            </div>
+    
+        </form>
+
+        <div class="register-link">
+            <a href="SignUp.html"> Don't have account?</a> 
+        </div>
+    </div>
+</body>
+</html>
