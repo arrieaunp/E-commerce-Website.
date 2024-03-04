@@ -95,3 +95,8 @@ nav a {
   top: 35px; 
   right: 500px;
 }
+
+.center {
+  text-align: center;
+  margin-top: 100px;
+}
