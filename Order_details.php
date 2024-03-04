@@ -27,15 +27,9 @@ if (isset($_GET['order_id'])) {
     <title>Order Details</title>
 </head>
 <body>
-<header>
-        <nav>
-            <ul>
-                <li><a href="Menu.php">หน้าแรก</a></li>
-                <li><a href="Order_history.php">ประวัติการซื้อ</a></li>
-                <li><a href="Cart.php">ตะกร้าสินค้า</a></li>
-            </ul>
-        </nav>
-    </header>
+<?php
+    include "header.php";
+?>
 
     <h1>Order Details</h1>
     <h2>Order ID: <?php echo $order_id; ?></h2>

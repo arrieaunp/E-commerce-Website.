@@ -16,16 +16,9 @@ if (!isset($_SESSION['order_id'])) {
 </head>
 
 <body>
-<header>
-    <nav>
-        <ul>
-            <li><a href="Menu.php">หน้าแรก</a></li>
-            <li><a href="Order_history.php">ประวัติการซื้อ</a></li>
-            <li><a href="Cart.php">ตะกร้าสินค้า</a></li>
-            <li><a href="logout.php">Log Out</a></li>
-        </ul>
-    </nav>
-</header>
+<?php
+    include "header.php";
+?>
 
 <div class="container">
     <center>

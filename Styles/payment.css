@@ -109,3 +109,25 @@ button:hover {
   width: 20px;
   height: 20px;
 }
+
+.dropdownn-content a,
+.account-box {
+  display: none;
+}
+
+#account-dropdown:hover .dropdownn-content a,
+#account-dropdown:hover .account-box {
+  display: block;
+}
+
+.account-box {
+  border: 1px solid #ccc;
+  background-color: black; 
+  width: 80px;
+  height: 80px;
+  padding: 10px;
+
+  position: absolute; 
+  top: 35px; 
+  right: 500px;
+}

@@ -22,16 +22,9 @@ $result = mysqli_query($conn, $query);
     <title>Order History</title>
 </head>
 <body>
-<header>
-        <nav>
-            <ul>
-                <li><a href="Menu.php">หน้าแรก</a></li>
-                <li><a href="Order_history.php">ประวัติการซื้อ</a></li>
-                <li><a href="Cart.php">ตะกร้าสินค้า</a></li>
-                <li><a href="logout.php">Log Out</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php
+    include "header.php";
+    ?>
 
     <h1>Order History</h1>
     <table>

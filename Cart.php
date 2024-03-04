@@ -1,3 +1,8 @@
+<?php
+session_start();
+require_once "db_config.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,26 +15,17 @@
 </head>
 
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="Menu.php">หน้าแรก</a></li>
-        <li><a href="Order_history.php">ประวัติการซื้อ</a></li>
-        <li><a href="Cart.php">ตะกร้าสินค้า</a></li>
-        <li><a href="logout.php">Log Out</a></li>
-      </ul>
-    </nav>
-  </header>
+  <?php
+    include "header.php";
+  ?>
 
   <div class="container">
     <h1>Shopping Cart</h1>
     <?php
-    session_start();
     $cart = array();
-    $cx = mysqli_connect("localhost", "root", "", "mydb");
     if (isset($_GET["selected"])) {
       $ProductCode = $_GET["selected"];
-      $cur = mysqli_query($cx, "SELECT * FROM `Stock` WHERE `ProductCode` = '$ProductCode'");
+      $cur = mysqli_query($conn, "SELECT * FROM `Stock` WHERE `ProductCode` = '$ProductCode'");
       if (mysqli_num_rows($cur) > 0) {
         $row = mysqli_fetch_array($cur);
         $product = array(
