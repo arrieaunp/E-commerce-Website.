@@ -1,6 +1,6 @@
 <?php
-session_start();
-$conn = mysqli_connect("localhost", "root", "", "mydb");
+require_once "db_config.php";
+session_start();  
 
 function generateSalt() {
     return base64_encode(random_bytes(32));
@@ -45,8 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Address = mysqli_real_escape_string($conn, $_POST["Address"]);
     $Tel = mysqli_real_escape_string($conn, $_POST["Tel"]);
 
-    if (!isStrongPassword($password)) {
-        echo "Password does not meet the criteria for a strong password.";
+    if(!isStrongPassword($password)) {
+        echo "<script>alert('Password does not meet the criteria for a strong password.'); window.location='SignUp.html';</script>";
         exit();
     }
 

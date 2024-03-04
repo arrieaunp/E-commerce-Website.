@@ -1,6 +1,6 @@
 <?php
+require_once "db_config.php";
 session_start();  
-$conn = mysqli_connect("localhost", "root", "", "mydb");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Username = mysqli_real_escape_string($conn, $_POST["Username"]);
