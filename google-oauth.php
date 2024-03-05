@@ -37,11 +37,10 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
             include "db_config.php";
 
             $Email = $profile['email'];
-            $query = "SELECT * FROM Cust WHERE Email = '$email'";
+            $query = "SELECT * FROM Cust WHERE Email = '$Email'";
             $result = mysqli_query($conn, $query);
 
             if (mysqli_num_rows($result) == 0) {
-                $Email = $profile['email'];
                 $CustName = $profile['name'];
 
                 $query = "INSERT INTO Cust (Email, CustName) 
@@ -55,7 +54,7 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
             }
 
             mysqli_close($conn);  
-                      
+
             $google_name_parts = [];
             $google_name_parts[] = isset($profile['given_name']) ? preg_replace('/[^a-zA-Z0-9]/s', '', $profile['given_name']) : '';
             $google_name_parts[] = isset($profile['family_name']) ? preg_replace('/[^a-zA-Z0-9]/s', '', $profile['family_name']) : '';
@@ -64,6 +63,7 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
             $_SESSION['google_loggedin'] = TRUE;
             $_SESSION['google_email'] = $profile['email'];
             $_SESSION['google_name'] = implode(' ', $google_name_parts);
+
             // $_SESSION['google_picture'] = isset($profile['picture']) ? $profile['picture'] : '';
             
             header('Location: Menu.php');
