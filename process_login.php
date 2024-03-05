@@ -6,9 +6,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Username = mysqli_real_escape_string($conn, $_POST["Username"]);
     $password = mysqli_real_escape_string($conn, $_POST["password"]);
 
-    if ($CustNo == "admin" && $password == "admin") {
+    if ($Username == "admin" && $password == "admin") {
         $_SESSION["admin"] = true;
-        header("Location: AdminPage/Adminpage.php");
+        header("Location: AdminPage/AdminPage.php");
         exit();
     }
 
