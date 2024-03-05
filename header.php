@@ -5,8 +5,10 @@
         <li><a href="Order_history.php">ประวัติการซื้อ</a></li>
         <li><a href="Cart.php">ตะกร้าสินค้า</a></li>
         <?php
+        include 'db_config.php';
+
         if(isset($_SESSION["CustNo"])){
-            $sql = "SELECT CustName FROM cust WHERE CustNo='".$_SESSION["CustNo"]."'";
+            $sql = "SELECT CustName FROM Cust WHERE CustNo='".$_SESSION["CustNo"]."'";
             $query = mysqli_query($conn,$sql);
             $row=mysqli_fetch_array($query);
                 echo '
