@@ -1,41 +1,44 @@
 <?php
-session_start();
-?>
+include "../db_config.php";
+$query = "SELECT * FROM OrderHeader ORDER BY Order_date DESC";
+$result = mysqli_query($conn, $query);
 
-<!DOCTYPE html>
+?>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../AdminPage/Back_Styles/Adminpage.css">
-    <title>Admin Page</title>
+  <title>Hello, world!</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <link rel="stylesheet" href="Back_Styles/adminpage.css" />
+
 </head>
-<body>
-<header>
-    <nav>
-        <ul>
-            <li><a href="../Customer/Show_Customer.php">Edit Customer</a></li>
-            <li><a href="../Stock/Show_Stock.php">Edit Stock</a></li>
-            <li class="logout"><a href="../logout.php">Log Out</a></li>
-        </ul>
-    </nav>
+
+<header role="banner">
+  <h1>Admin Panel</h1>
+  <ul class="utilities">
+    <br>
+    <li class="users"><a href="#">My Account</a></li>
+    <li class="logout warn"><a href="../logout.php">Log Out</a></li>
+  </ul>
 </header>
 
-<?php
-if (!isset($_SESSION["admin"]) || $_SESSION["admin"] !== true) {
-    header("Location: login.html");
-    exit();
-}
+<nav role='navigation'>
+  <ul class="main">
+    <li class="dashboard"><a href="Adminpage.php">Dashboard</a></li>
+    <li class="users"><a href="../Customer/Show_Customer.php">Customer</a></li>
+    <li class="write"><a href="../Stock/Show_Stock.php">Stock</a></li>
+    <li class="comments"><a href="report.php">Report</a></li>
+  </ul>
+</nav>
 
-$conn = mysqli_connect("localhost", "root", "", "mydb");
-$query = "SELECT * FROM Order_header";
-$result = mysqli_query($conn, $query);
-?>
-
-<div class="container">
-    <h1></h1>
-    <div class="table-container">
-        <?php if (mysqli_num_rows($result) > 0): ?>
+<main role="main">
+  
+  <section class="panel important">
+    <h2>Order Recents</h2>
+    <?php if (mysqli_num_rows($result) > 0): ?>
             <table>
                 <tr>
                     <th>Order ID</th>
@@ -64,9 +67,7 @@ $result = mysqli_query($conn, $query);
         <?php else: ?>
             <p>No orders found.</p>
         <?php endif; ?>
-    </div>
-</div>
 
-<?php mysqli_close($conn); ?>
-</body>
-</html>
+  </section>
+  
+</main>
