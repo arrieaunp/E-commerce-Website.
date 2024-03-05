@@ -18,17 +18,28 @@
     <h1>Checkout</h1>
 
     <?php
+    include "db_config.php";
     session_start();
 
+  
     if (isset($_SESSION["CustNo"])) {
       echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
-          "<label for='cust_name'><b>ชื่อ :</b></label>",
-          "<input type='text' id='cust_name' name='cust_name' value='" . $_SESSION["CustName"] . "'><br>",
+          "<label for='CustName'><b>ชื่อ :</b></label>",
+          "<input type='text' id='CustName' name='CustName' value='" . $_SESSION["CustName"] . "'><br>",
           "<label for='address'><b>ที่อยู่ :</b></label>",
           "<input type='text' id='address' name='address' value='" . $_SESSION["Address"] . "'><br>",
           "<label for='tel'><b>เบอร์โทร :</b></label>",
           "<input type='text' id='tel' name='tel' value='" . $_SESSION["Tel"] . "'>";
-  } else {
+    }else if(isset($_SESSION['google_loggedin']) && $_SESSION['google_loggedin'] == TRUE) {
+      echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
+          "<label for='CustName'><b>ชื่อ :</b></label>",
+          "<input type='text' id='CustName' name='CustName' value='" . $_SESSION['google_name'] . "'><br>",
+          "<label for='address'><b>ที่อยู่ :</b></label>",
+          "<input type='text' id='address' name='address'><br>",
+          "<label for='tel'><b>เบอร์โทร :</b></label>",
+          "<input type='text' id='tel' name='tel'>";
+  }
+   else {
       echo "<p>กรุณาทำการ login ก่อนทำการ Checkout</p>";
       exit();
   }
