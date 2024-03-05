@@ -34,6 +34,28 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
         $profile = json_decode($response, true);
         // Make sure the profile data exists
         if (isset($profile['email'])) {
+            include "db_config.php";
+
+            $Email = $profile['email'];
+            $query = "SELECT * FROM Cust WHERE Email = '$email'";
+            $result = mysqli_query($conn, $query);
+
+            if (mysqli_num_rows($result) == 0) {
+                $Email = $profile['email'];
+                $CustName = $profile['name'];
+
+                $query = "INSERT INTO Cust (Email, CustName) 
+                          VALUES ('$Email', '$CustName')";
+
+                if (mysqli_query($conn, $query)) {
+                    echo "เพิ่มข้อมูลลูกค้าใหม่เข้าสู่ระบบสำเร็จ";
+                } else {
+                    echo "มีข้อผิดพลาดในการเพิ่มข้อมูลลูกค้าใหม่: " . mysqli_error($conn);
+                }
+            }
+
+            mysqli_close($conn);  
+                      
             $google_name_parts = [];
             $google_name_parts[] = isset($profile['given_name']) ? preg_replace('/[^a-zA-Z0-9]/s', '', $profile['given_name']) : '';
             $google_name_parts[] = isset($profile['family_name']) ? preg_replace('/[^a-zA-Z0-9]/s', '', $profile['family_name']) : '';
