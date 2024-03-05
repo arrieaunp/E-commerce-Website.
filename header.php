@@ -19,7 +19,24 @@
                   </div>
                   </div>
                 </li>';
-        } else {
+        }else if(isset($_SESSION["google_email"])){
+          $sql2 = "SELECT CustName FROM cust WHERE Email='".$_SESSION["google_email"]."'";
+          $query2 = mysqli_query($conn,$sql2);
+          if($query2 && mysqli_num_rows($query2) > 0){
+              $row=mysqli_fetch_array($query2);
+              echo '
+              <li class="dropdownn" id="account-dropdown">
+                <a href="#" class="dropbtn">'.$row["CustName"].'</a>
+                <div class="dropdownn-content">
+                <div class="account-box">
+                  <a href="">โปรไฟล์</a>
+                  <a href="logout.php"><br>ออกจากระบบ</a>
+                </div>
+                </div>
+              </li>';
+          } 
+        }
+         else {
             echo '
             <li class="dropdownn" id="account-dropdown">
               <a href="#" class="dropbtn">บัญชี</a>
