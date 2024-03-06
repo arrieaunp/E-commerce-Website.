@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="submit" value="Generate Report">
             </form>
             <?php if ($_SERVER["REQUEST_METHOD"] == "POST") : ?>
-            <h3>Top Selling Products</h3>
+            <h3>Product Sales </h3>
             <table>
                 <tr>
                     <th>Product Code</th>
