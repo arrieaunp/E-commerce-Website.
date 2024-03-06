@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $status = ''; 
         }
 
-        $query = "UPDATE Order_header SET Order_date='$order_date', CustName='$cust_name', Address='$address', Order_status='$status' WHERE Order_id='$order_id'";
+        $query = "UPDATE OrderHeader SET Order_date='$order_date', CustName='$cust_name', Address='$address', Order_status='$status' WHERE Order_id='$order_id'";
         $result = mysqli_query($conn, $query);
         
         if ($result) {
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "Failed to update order.";
         }
     } elseif (isset($_POST['delete'])) {
-        $query = "DELETE FROM Order_header WHERE Order_id='$order_id'";
+        $query = "DELETE FROM OrderHeader WHERE Order_id='$order_id'";
         $result = mysqli_query($conn, $query);
 
         if ($result) {
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$query = "SELECT * FROM Order_header WHERE Order_id = '$order_id'";
+$query = "SELECT * FROM OrderHeader WHERE Order_id = '$order_id'";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
