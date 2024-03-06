@@ -12,30 +12,33 @@ while ($row = mysqli_fetch_array($stmt)) {
     $name2 = $row["ProductName"];
     $name3 = $row["PricePerUnit"];
     $name4 = $row["StockQty"];
-    $name5 = $row["AddNewField"];
 }    
 mysqli_close($conn);
 ?>
 
 <html>
+<link rel="stylesheet" href="Updatepage.css">
 <form method="get" action="SaveDB_Stock.php">
-    <h1>
+<div class="container">
 
         <input type="hidden" name="a1" value="<?php echo $name1 ?>">
         <?php echo $name1 ?>
-        ชื่อสินค้า
+        <br>
+        <label for="a2">ชื่อสินค้า:</label>
         <input type="text" name="a2" size="20" maxlength="20" value="<?php echo $name2 ?>"><br>
-        ราคาต่อหน่วย 
-        <input type="text" name="a3" size="1" maxlength="1" value="<?php echo $name3 ?>"><br>
-        รายการคงเหลือ 
-        <input type="text" name="a4" size="50" maxlength="80" value="<?php echo $name4 ?>"><br>
-        รายละเอียด 
-        <input type="text" name="a5" size="10" maxlength="10" value="<?php echo $name5 ?>"><br>
-
+        <label for="a3">ราคาต่อหน่วย:</label>
+        <input type="text" name="a3" size="10" maxlength="1" value="<?php echo $name3 ?>"><br>
+        รายการคงเหลือ : <?php echo $name4 ?>
+<br>
+        <label for="a4">เพิ่มสินค้า:</label>
+        <input type="int" name="a4" id='increseQty' size="50" maxlength="80"><br>
+        <label for="a4">ลดจำนวนสินค้า:</label>
+        <input type="int" name="a5" id='decreaseQty' size="50" maxlength="80"><br>
+<br>
         <input type="submit" value="ยืนยัน">
         <input type="reset" value="ยกเลิก">
-    </h1>
 </form>
+</div>
 
 </body>
 </html>
