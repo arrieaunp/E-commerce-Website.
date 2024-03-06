@@ -32,9 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <li class="logout warn"><a href="../logout.php">Log Out</a></li>
         </ul>
     </header>
-
     <?php include "sidenav.php"; ?>
-
     <main role="main">
         <section class="panel important">
             <h2>Income Summary Report</h2>
