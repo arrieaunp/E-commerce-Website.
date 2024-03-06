@@ -4,7 +4,7 @@
     /* get connection */
     $conn = mysqli_connect("localhost", "root", "", "mydb");
     /* run query to get data based on a1 */
-    $stmt = mysqli_query($conn, "SELECT * FROM Customer WHERE CustNo = '$a1'");
+    $stmt = mysqli_query($conn, "SELECT * FROM Cust WHERE CustNo = '$a1'");
 
 
 while ($row = mysqli_fetch_array($stmt)) {
