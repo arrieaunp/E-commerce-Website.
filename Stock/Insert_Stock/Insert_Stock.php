@@ -24,7 +24,7 @@
         $conn = mysqli_connect("localhost", "root", "", "mydb");
 
         /* run insert */
-        $stmt = mysqli_prepare($conn, "INSERT INTO Stock (ProductCode, ProductName, PricePerUnit, StockQty, AddNewField) VALUES (?, ?, ?, ?, ?)");
+        $stmt = mysqli_prepare($conn, "INSERT INTO Stock (ProductCode, ProductName, PricePerUnit, StockQty, ProductImg) VALUES (?, ?, ?, ?, ?)");
         mysqli_stmt_bind_param($stmt, "sssss", $a1, $a2, $a3, $a4, $a5);
 
         /* execute and check for errors */
@@ -38,6 +38,9 @@
         mysqli_close($conn);
         ?>
     </div>
+<a href="http://localhost/bb/Fullstack/Stock/Show_Stock.php" target="_blank">
+    <button class="button button1">ฺBack to Stock</button>
+</a>
 
 </body>
 </html>
