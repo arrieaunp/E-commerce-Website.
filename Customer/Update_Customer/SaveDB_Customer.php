@@ -8,7 +8,7 @@ $a5 = $_GET['a5'];
     /*get connection*/
     $conn=mysqli_connect("localhost","root","","mydb");
     /*run update*/
-    $stmt = mysqli_prepare($conn, "UPDATE Customer SET
+    $stmt = mysqli_prepare($conn, "UPDATE Cust SET
                         CustName = ?, Sex = ?, Address = ?, Tel = ?
                             WHERE CustNo=?");
     mysqli_stmt_bind_param($stmt, "sssss", $a2, $a3, $a4, $a5, $a1);
@@ -23,4 +23,6 @@ $a5 = $_GET['a5'];
 
     /*close connection*/
     mysqli_close($conn);
+    header("Location: ../Show_Customer.php");
+
 ?>
