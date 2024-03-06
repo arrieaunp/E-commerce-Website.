@@ -38,7 +38,7 @@
     }
 ?>
 
-<a href="http://localhost/bb/Stock/Insert_Stock/Insert_Stock.html" target="_blank">
+<a href="http://localhost/bb/Fullstack/Stock/Insert_Stock/Insert_Stock.html" target="_blank">
     <button class="button button1">Insert Product</button>
 </a>
 <form action="Delete_Stock/Delete_Stock.php" method="post">
@@ -63,8 +63,8 @@ while ($row = mysqli_fetch_array($cur)) {
             <td>' . $row['ProductName'] . '</td>
             <td>' . $row['PricePerUnit'] . '</td>
             <td>' . $row['StockQty'] . '</td>
-            <td><a href="http://localhost/bb/Stock/Update_Stock/Update_Stock.php?a1=' . $row['ProductCode'] . '">Update</a></td>
-            <td><a href="http://localhost/bb/Stock/Delete_Stock/Delete_Stock.php?a1=' . $row['ProductCode'] . '">Delete</a></td>
+            <td><a href="http://localhost/bb/Fullstack/Stock/Update_Stock/Update_Stock.php?a1=' . $row['ProductCode'] . '">Update</a></td>
+            <td><a href="http://localhost/bb/Fullstack/Stock/Delete_Stock/Delete_Stock.php?a1=' . $row['ProductCode'] . '">Delete</a></td>
           </tr>';
 }
     mysqli_close($cx);
