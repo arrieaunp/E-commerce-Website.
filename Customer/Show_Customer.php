@@ -28,18 +28,18 @@
 </form>
 
 <?php
-    $cx = mysqli_connect("localhost", "root", "", "mydb");
+include "../db_config.php";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $searchInput = mysqli_real_escape_string($cx, $_POST["searchInput"]);
-        $searchQuery = "SELECT * FROM Customer WHERE CustNo LIKE '%$searchInput%' OR CustName LIKE '%$searchInput%' OR Address LIKE '%$searchInput%'";
-        $cur = mysqli_query($cx, $searchQuery);
+        $searchInput = mysqli_real_escape_string($conn, $_POST["searchInput"]);
+        $searchQuery = "SELECT * FROM Cust WHERE CustNo LIKE '%$searchInput%' OR CustName LIKE '%$searchInput%' OR Address LIKE '%$searchInput%'";
+        $cur = mysqli_query($conn, $searchQuery);
     } else {
-        $cur = mysqli_query($cx, "SELECT * FROM Customer WHERE 1");
+        $cur = mysqli_query($conn, "SELECT * FROM Cust WHERE 1");
     }
 ?>
 
-<a href="http://localhost/bb/Customer/Insert_Customer/Insert_Customer.html" target="_blank">
+<a href="http://localhost/bb/Fullstack/Customer/Insert_Customer/Insert_Customer.html" target="_blank">
     <button class="button button1">Insert Customer</button>
 </a>
 
@@ -68,8 +68,8 @@ while ($row = mysqli_fetch_array($cur)) {
             <td>' . $row['Sex'] . '</td>
             <td>' . $row['Address'] . '</td>
             <td>' . $row['Tel'] . '</td>
-            <td><a href="http://localhost/bb/Customer/Update_Customer/Update_Customer.php?a1=' . $row['CustNo'] . '">Update</a></td>
-            <td><a href="http://localhost/bb/Customer/Delete_Customer/Delete_Customer.php?a1=' . $row['CustNo'] . '">Delete</a></td>
+            <td><a href="http://localhost/bb/Fullstack/Customer/Update_Customer/Update_Customer.php?a1=' . $row['CustNo'] . '">Update</a></td>
+            <td><a href="http://localhost/bb/Fullstack/Customer/Delete_Customer/Delete_Customer.php?a1=' . $row['CustNo'] . '">Delete</a></td>
           </tr>';
 }
 ?>
