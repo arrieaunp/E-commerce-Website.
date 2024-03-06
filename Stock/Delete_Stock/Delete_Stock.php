@@ -41,6 +41,9 @@
         ?>   
 
     </div>
+<a href="http://localhost/bb/Fullstack/Stock/Show_Stock.php" target="_blank">
+    <button class="button button1">ฺBack to Stock</button>
+</a>
 
 </body>
 </html>
