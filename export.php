@@ -1,5 +1,5 @@
 <?php
-require_once('TCPDF-main/tcpdf.php');
+require_once('vendor/autoload.php');
 
 session_start();
 

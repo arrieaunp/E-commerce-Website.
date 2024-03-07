@@ -86,13 +86,12 @@ if (!isset($_SESSION['order_id'])) {
 
 <script>
     function clearSession() {
-        <?php
-        foreach ($_SESSION as $key => $value) {
-            if ($key !== 'custNo') {
-                unset($_SESSION[$key]);
-            }
+    $order_related_keys = ['order_id', 'order_date', 'custName', 'address', 'product_details', 'order_total'];
+    foreach ($order_related_keys); {
+        if (isset($_SESSION[$key])) {
+        unset($_SESSION[$key]);
         }
-        ?>
+    }
     }
 </script>
 
