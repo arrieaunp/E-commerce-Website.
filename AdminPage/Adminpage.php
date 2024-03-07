@@ -25,14 +25,7 @@ $result = mysqli_query($conn, $query);
   </ul>
 </header>
 
-<nav role='navigation'>
-  <ul class="main">
-    <li class="dashboard"><a href="Adminpage.php">Dashboard</a></li>
-    <li class="users"><a href="../Customer/Show_Customer.php">Customer</a></li>
-    <li class="write"><a href="../Stock/Show_Stock.php">Stock</a></li>
-    <li class="comments"><a href="report.php">Report</a></li>
-  </ul>
-</nav>
+<?php include "sidenav.php"; ?>
 
 <main role="main">
   
