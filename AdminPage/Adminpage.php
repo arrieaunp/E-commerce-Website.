@@ -1,6 +1,6 @@
 <?php
 include "../db_config.php";
-$query = "SELECT * FROM OrderHeader ORDER BY Order_date DESC";
+$query = "SELECT * FROM OrderHeader ORDER BY Order_id DESC";
 $result = mysqli_query($conn, $query);
 
 ?>
@@ -13,7 +13,7 @@ $result = mysqli_query($conn, $query);
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <link rel="stylesheet" href="Back_Styles/Adminpage.css" />
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 </head>
 
 <header role="banner">
@@ -27,7 +27,12 @@ $result = mysqli_query($conn, $query);
 
 <?php include "sidenav.php"; ?>
 
-<main role="main">
+<main role="main">  
+  <section class="panel important">
+            <h2>Income Summary</h2>
+            <canvas id="incomeChart" width="800" height="400"></canvas>
+        </section>
+
   
   <section class="panel important">
     <h2>Order Recents</h2>
@@ -60,7 +65,40 @@ $result = mysqli_query($conn, $query);
         <?php else: ?>
             <p>No orders found.</p>
         <?php endif; ?>
-
   </section>
-  
+
 </main>
+<script>
+        <?php
+        include "../db_config.php";
+        $query = "SELECT DATE(Order_date) as order_date, SUM(Order_total) as total_amount FROM OrderHeader GROUP BY DATE(Order_date)";
+        $result = mysqli_query($conn, $query);
+        $data = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[$row['order_date']] = $row['total_amount'];
+        }
+        ?>
+
+        const labels = <?php echo json_encode(array_keys($data)); ?>;
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Income per Day',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: <?php echo json_encode(array_values($data)); ?>,
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+
+        var myChart = new Chart(
+            document.getElementById('incomeChart'),
+            config
+        );
+    </script>
+</html>
