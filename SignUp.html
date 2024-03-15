@@ -18,13 +18,18 @@
         <div class="input-box">
             <input type="password" name="password" placeholder="Password" required>
         </div>
+
+        <div class="input-box">
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
+        </div>
+
         <div>
           <p>
-            * Is between 8 and 64 characters long. <br>
-            * Contains at least one uppercase letter.<br>
-            * Contains at least one lowercase letter.<br>
-            * Contains at least one digit.<br>
-            * Contains at least one special character.<br>
+            * Min. 8 characters <br>
+            * Include uppercase letter<br>
+            * Include lowercase letter<br>
+            * Include number<br>
+            * Include a special character: #.-?!@$%^&*<br>
             * Does not contain consecutive repeated characters (e.g., 'aaa') <br>
         </p>  
         </div>
@@ -54,6 +59,10 @@
         <div class="input-box button">
             <input type="Submit" value="Sign Up">
         </div>
+        <div class="login-link">
+            <a href="login.html"> Have account ? </a> 
+        </div>
+
     </form> 
     </div>
     
