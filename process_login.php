@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($Username == "admin" && $password == "admin") {
         $_SESSION["admin"] = true;
-        header("Location: AdminPage/AdminPage.php");
+        header("Location: AdminPage/Adminpage.php");
         exit();
     }
 
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["Address"] = $row["Address"];
         $_SESSION["Tel"] = $row["Tel"];
 
-        header("Location: Menu.php");
+        header("Location: index.php");
         exit();
     } 
     else {
