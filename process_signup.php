@@ -47,6 +47,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Address = mysqli_real_escape_string($conn, $_POST["Address"]);
     $Tel = mysqli_real_escape_string($conn, $_POST["Tel"]);
 
+    $check_query = "SELECT * FROM Cust WHERE Username = '$Username'";
+    $check_result = mysqli_query($conn, $check_query);
+    if (mysqli_num_rows($check_result) > 0) {
+        echo "<script>alert('Username already exists. Please choose a different username.')</script>";
+        echo "<script>window.location = 'SignUp.html'</script>";
+        exit();
+    }
+
     if (!isStrongPassword($password)) {
         echo "<script>alert('Password must be at least 8 characters long, <br>
         contain at least one uppercase letter, one lowercase letter, <br>
@@ -54,19 +62,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         It should not contain repeated characters.')</script>";
         echo "<script>window.location = 'SignUp.html'</script>";
         exit(); 
-        }
+    }
+
+    if ($password !== $_POST["confirm_password"]) {
+        echo "<script>alert('Passwords do not match.')</script>";
+        echo "<script>window.location = 'SignUp.html'</script>";
+        exit(); 
+    }
 
     $salt = generateSalt();
     $hashed_password = hashPassword($password, $salt);
 
-    $insert_query = "INSERT INTO Cust (Username, SaltPwd, Password, CustName, Sex, Address, Tel) VALUES ('$Username', '$salt', '$hashed_password', '$CustName', '$Sex', '$Address', '$Tel')";
-
-    if (mysqli_query($conn, $insert_query)) {
+    $insert_query = "INSERT INTO Cust (Username, SaltPwd, Password, CustName, Sex, Address, Tel) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $insert_query);
+    mysqli_stmt_bind_param($stmt, "sssssss", $Username, $salt, $hashed_password, $CustName, $Sex, $Address, $Tel);
+    if (mysqli_stmt_execute($stmt)) {
         header("Location: login.html");
         exit();
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "Error: " . mysqli_stmt_error($stmt);
     }
+
+    mysqli_stmt_close($stmt); 
+
 }
 mysqli_close($conn);
 ?>
