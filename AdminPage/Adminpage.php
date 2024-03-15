@@ -1,12 +1,18 @@
 <?php
 include "../db_config.php";
-$query = "SELECT * FROM OrderHeader ORDER BY Order_id DESC";
-$result = mysqli_query($conn, $query);
 
+session_start();
+if (!isset($_SESSION["admin"]) || !$_SESSION["admin"]) {
+    header("Location: ../login.html");
+    exit();
+}
+
+$query = "SELECT * FROM OrderHeader ORDER BY OrderId DESC";
+$result = mysqli_query($conn, $query);
 ?>
+
 <!doctype html>
 <html lang="en">
-
 <head>
   <title>Admin Panel</title>
   <meta charset="utf-8">
@@ -46,19 +52,21 @@ $result = mysqli_query($conn, $query);
                     <th>Status</th>
                     <th>Total</th>
                     <th></th>
+                    <!-- <th>Invoice</th> -->
                 </tr>
                 <?php while ($row = mysqli_fetch_assoc($result)): ?>
                     <tr>
-                        <td><?php echo $row['Order_id']; ?></td>
-                        <td><?php echo $row['Order_date']; ?></td>
+                        <td><?php echo $row['OrderId']; ?></td>
+                        <td><?php echo $row['OrderDate']; ?></td>
                         <td><?php echo $row['CustName']; ?></td>
                         <td><?php echo $row['Address']; ?></td>
-                        <td><?php echo $row['Order_status']; ?></td>
-                        <td><?php echo $row['Order_total']; ?></td>
+                        <td><?php echo $row['OrderStatus']; ?></td>
+                        <td><?php echo $row['OrderTotal']; ?></td>
                         <td>
-                            <a href='edit_order.php?id=<?php echo $row['Order_id']; ?>' class="btn btn-edit">Edit</a>
-                            <a href='delete_order.php?id=<?php echo $row['Order_id']; ?>' class="btn btn-delete">Delete</a>
+                            <a href='edit_order.php?id=<?php echo $row['OrderId']; ?>' class="btn btn-edit">Edit</a>
+                            <a href='delete_order.php?id=<?php echo $row['OrderId']; ?>' class="btn btn-delete">Delete</a>
                         </td>
+                        <!-- <td><a herf='../Invoice_customer.php'><button>Invoice</button></a></td> -->
                     </tr>
                 <?php endwhile; ?>
             </table>
@@ -71,7 +79,7 @@ $result = mysqli_query($conn, $query);
 <script>
         <?php
         include "../db_config.php";
-        $query = "SELECT DATE(Order_date) as order_date, SUM(Order_total) as total_amount FROM OrderHeader GROUP BY DATE(Order_date)";
+        $query = "SELECT DATE(OrderDate) as order_date, SUM(OrderTotal) as total_amount FROM OrderHeader GROUP BY DATE(OrderDate)";
         $result = mysqli_query($conn, $query);
         $data = array();
         while ($row = mysqli_fetch_assoc($result)) {
