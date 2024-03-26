@@ -1,5 +1,8 @@
 <?php
+ob_start();
 session_start();
+include "header.php";
+include "db_config.php";
 
 if (!isset($_SESSION["CustNo"])) {
     header("Location: login.html");
@@ -11,7 +14,6 @@ $CustName = $_SESSION["CustName"];
 $Address = $_SESSION["Address"];
 
 $payment_method = $_POST["payment_method"];
-$conn = mysqli_connect("localhost", "root", "", "mydb");
 if ($payment_method == "pay_now") {
     $order_status = "Paid";
 } else {
@@ -38,7 +40,7 @@ foreach ($_SESSION["cart"] as $product) {
 }
 
 //id
-$sql = "SELECT MAX(Order_id) AS max_id FROM OrderHeader";
+$sql = "SELECT MAX(OrderId) AS max_id FROM OrderHeader";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 if ($row["max_id"] == NULL) {
@@ -48,7 +50,7 @@ if ($row["max_id"] == NULL) {
 }
 
 // บันทึกข้อมูลการชำระเงินลงใน OrderHeader
-$query = "INSERT INTO OrderHeader (Order_id, Order_date, CustNo, CustName, Address, Order_status, Order_total) 
+$query = "INSERT INTO OrderHeader (OrderId, OrderDate, CustNo, CustName, Address, OrderStatus, OrderTotal) 
           VALUES ('$order_id', '$order_date', '$CustNo', '$CustName', '$Address', '$order_status', $total)";
 mysqli_query($conn, $query);
 
@@ -60,23 +62,21 @@ foreach ($product_details as $product) {
     $Qty = $product["quantity"];
     $line_total = $PricePerUnit * $Qty;
     
-    $query = "INSERT INTO OrderDetail (Order_id, ProductCode, ProductName, PricePerUnit, Qty, Line_total) 
+    $query = "INSERT INTO OrderDetail (OrderId, ProductCode, ProductName, PricePerUnit, Qty, LineTotal) 
               SELECT '$order_id', '$ProductCode', '$ProductName', $PricePerUnit, $Qty, $line_total
               FROM OrderHeader
-              WHERE Order_id = $order_id";
+              WHERE OrderId = $order_id";
     
     mysqli_query($conn, $query);
 }
-
 // Store order details in session
-$_SESSION["order_id"] = $order_id;
-$_SESSION["order_date"] = $order_date;
-$_SESSION["custNo"] = $CustNo;
-$_SESSION["custName"] = $CustName;
-$_SESSION["address"] = $Address;
-$_SESSION["order_total"] = $total;
+$_SESSION["OrderId"] = $order_id;
+$_SESSION["OrderDate"] = $order_date;
+$_SESSION["CustNo"] = $CustNo;
+$_SESSION["CustName"] = $CustName;
+$_SESSION["Address"] = $Address;
+$_SESSION["OrderTotal"] = $total;
 $_SESSION["product_details"] = $product_details;
-
 header("Location: Invoice_customer.php");
 exit();
 ?>

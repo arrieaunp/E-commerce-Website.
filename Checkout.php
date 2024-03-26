@@ -1,3 +1,9 @@
+<?php
+session_start();
+include "db_config.php";
+include "header.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,18 +16,10 @@
 </head>
 
 <body>
-  <?php
-    include "header.php";
-  ?>
-
   <center>
     <h1>Checkout</h1>
 
     <?php
-    include "db_config.php";
-    session_start();
-
-  
     if (isset($_SESSION["CustNo"])) {
       echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
           "<label for='CustName'><b>ชื่อ :</b></label>",
@@ -30,7 +28,7 @@
           "<input type='text' id='address' name='address' value='" . $_SESSION["Address"] . "'><br>",
           "<label for='tel'><b>เบอร์โทร :</b></label>",
           "<input type='text' id='tel' name='tel' value='" . $_SESSION["Tel"] . "'>";
-    }else if(isset($_SESSION['google_loggedin']) && $_SESSION['google_loggedin'] == TRUE) {
+    }else if(isset($_SESSION['google_loggedin']) == TRUE) {
       echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
           "<label for='CustName'><b>ชื่อ :</b></label>",
           "<input type='text' id='CustName' name='CustName' value='" . $_SESSION['google_name'] . "'><br>",
@@ -42,11 +40,7 @@
    else {
       echo "<p>กรุณาทำการ login ก่อนทำการ Checkout</p>";
       exit();
-  }
-      
-    ?>
-
-    <?php
+  }      
     if (!empty($_SESSION["cart"])) {
       echo "<h2>รายการสินค้าในตะกร้า</h2>";
       echo "<table>",
@@ -89,5 +83,4 @@
 
   </center>
 </body>
-
 </html>

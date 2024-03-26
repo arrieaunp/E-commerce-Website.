@@ -1,5 +1,5 @@
 <?php
-require_once('vendor/autoload.php');
+require_once('../Fullstack/vendor/autoload.php');
 
 session_start();
 
@@ -20,7 +20,7 @@ if (isset($_POST['export_format']) && $_POST['export_format'] == 'pdf') {
 
     $pdf->AddPage();
 
-    $pdf->SetFont('helvetica', '', 12);
+    $pdf->SetFont('thsarabun', '', 12);
 
     $html = '<h1>Invoice</h1>';
     $html .= '<p>Order ID: ' . $_SESSION["order_id"] . '</p>';

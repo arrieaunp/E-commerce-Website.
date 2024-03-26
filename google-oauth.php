@@ -1,10 +1,10 @@
 <?php
 session_start();
+include "db_config.php";
 
 $google_oauth_client_id = '71002881248-l6021c7r8m367v2ste3rghg4kskva1i0.apps.googleusercontent.com';
 $google_oauth_client_secret = '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';
 $google_oauth_redirect_uri = 'http://localhost/bb/Fullstack/google-oauth.php';
-
 $google_oauth_version = 'v3';
 
 if (isset($_GET['code']) && !empty($_GET['code'])) {
@@ -33,15 +33,13 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
         curl_close($ch);
         $profile = json_decode($response, true);
         // Make sure the profile data exists
-        if (isset($profile['email'])) {
-            include "db_config.php";
-
-            $Email = $profile['email'];
+        if (isset($profile['Email'])) {
+            $Email = $profile['Email'];
             $query = "SELECT * FROM Cust WHERE Email = '$Email'";
             $result = mysqli_query($conn, $query);
 
             if (mysqli_num_rows($result) == 0) {
-                $CustName = $profile['name'];
+                $CustName = $profile['CustName'];
 
                 $query = "INSERT INTO Cust (Email, CustName) 
                           VALUES ('$Email', '$CustName')";
@@ -61,12 +59,10 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
             // Authenticate the user
             session_regenerate_id();
             $_SESSION['google_loggedin'] = TRUE;
-            $_SESSION['google_email'] = $profile['email'];
+            $_SESSION['google_email'] = $profile['Email'];
             $_SESSION['google_name'] = implode(' ', $google_name_parts);
-
-            // $_SESSION['google_picture'] = isset($profile['picture']) ? $profile['picture'] : '';
             
-            header('Location: Menu.php');
+            header('Location: index.php');
             exit;
         } else {
             exit('Could not retrieve profile information! Please try again later!');

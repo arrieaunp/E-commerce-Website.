@@ -28,13 +28,14 @@
 </form>
 
 <?php
-    $cx = mysqli_connect("localhost", "root", "", "mydb");
+include "../db_config.php";
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $searchInput = mysqli_real_escape_string($cx, $_POST["searchInput"]);
+        $searchInput = mysqli_real_escape_string($conn, $_POST["searchInput"]);
         $searchQuery = "SELECT * FROM Stock WHERE ProductCode LIKE '%$searchInput%' OR ProductName LIKE '%$searchInput%'";
-        $cur = mysqli_query($cx, $searchQuery);
+        $cur = mysqli_query($conn, $searchQuery);
     } else {
-        $cur = mysqli_query($cx, "SELECT * FROM Stock WHERE 1");
+        $cur = mysqli_query($conn, "SELECT * FROM Stock WHERE 1");
     }
 ?>
 
@@ -67,7 +68,7 @@ while ($row = mysqli_fetch_array($cur)) {
             <td><a href="http://localhost/bb/Fullstack/Stock/Delete_Stock/Delete_Stock.php?a1=' . $row['ProductCode'] . '">Delete</a></td>
           </tr>';
 }
-    mysqli_close($cx);
+    mysqli_close($conn);
 ?>
 
 </table>

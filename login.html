@@ -20,7 +20,7 @@
             </div>
             
             <div class="remember-forgot">
-                <label><input type="checkbox"> Remember me</label>
+                <label><input type="checkbox"> Remember me </label>
                 <br>
                 <a href="#"> Forgot password?</a> 
             </div>
@@ -28,7 +28,6 @@
             <div class="input-box button">
                 <input type="Submit" value="Login">
             </div>
-    
         </form>
 
         <div class="register-link">
@@ -46,3 +45,25 @@
     </div>
 </body>
 </html>
+<!-- JWT -->
+
+<!-- Auto logout   -->
+<script>
+    let timer;
+    
+    function startLogoutTimer() {
+        timer = setTimeout(function() {
+            window.location.href = 'logout.php'; 
+        }, 60 * 60 * 1000); // 60 minutes
+    }
+    
+    // Start the timer when the page loads
+    startLogoutTimer();
+    
+    // Reset the timer when the user interacts with the page
+    document.addEventListener('click', function() {
+        clearTimeout(timer);
+        startLogoutTimer();
+    });
+    </script>
+    

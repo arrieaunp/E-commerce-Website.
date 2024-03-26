@@ -1,16 +1,20 @@
 <?php
 session_start();
+include "header.php";
+include "db_config.php";
 
 if (!isset($_SESSION["CustNo"])) {
     header("Location: login.html");
     exit();
 }
 
-$conn = mysqli_connect("localhost", "root", "", "mydb");
-
 $CustNo = $_SESSION["CustNo"];
-$query = "SELECT * FROM Order_header WHERE CustNo = '$CustNo' ORDER BY Order_date DESC";
+$query = "SELECT * FROM OrderHeader WHERE CustNo = '$CustNo' ORDER BY OrderDate DESC";
 $result = mysqli_query($conn, $query);
+if (!$result) {
+    die("Query failed: " . mysqli_error($conn));
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -22,10 +26,6 @@ $result = mysqli_query($conn, $query);
     <title>Order History</title>
 </head>
 <body>
-    <?php
-    include "header.php";
-    ?>
-
     <h1>Order History</h1>
     <table>
         <tr>
@@ -37,10 +37,10 @@ $result = mysqli_query($conn, $query);
         </tr>
         <?php
         while ($row = mysqli_fetch_assoc($result)) {
-            $order_id = $row['Order_id'];
-            $order_date = $row['Order_date'];
-            $order_total = $row['Order_total'];
-            $order_status = $row['Order_status'];
+            $order_id = $row['OrderId'];
+            $order_date = $row['OrderDate'];
+            $order_total = $row['OrderTotal'];
+            $order_status = $row['OrderStatus'];
             ?>
             <tr>
                 <td><?php echo $order_id; ?></td>

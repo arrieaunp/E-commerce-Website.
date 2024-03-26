@@ -2,9 +2,6 @@
 require_once "db_config.php";
 session_start();
 
-// Define your pepper
-define('PEPPER', 'TestPepperValue');
-
 function isStrongPassword($password) {
     $min_length = 8;
     if (strlen($password) < $min_length ) {
@@ -34,9 +31,9 @@ function generateSalt() {
     return password_hash(random_bytes(10), PASSWORD_BCRYPT);
 }
 
-// Function to hash password with salt and pepper
+// Function to hash password with salt
 function hashPassword($password, $salt) {
-    return password_hash(PEPPER . $password . $salt, PASSWORD_BCRYPT);
+    return password_hash($password . $salt, PASSWORD_BCRYPT);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -55,27 +52,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    if (!isStrongPassword($password)) {
-        echo "<script>alert('Password must be at least 8 characters long, <br>
-        contain at least one uppercase letter, one lowercase letter, <br>
-        one digit, and one special character. <br>
-        It should not contain repeated characters.')</script>";
-        echo "<script>window.location = 'SignUp.html'</script>";
-        exit(); 
-    }
-
-    if ($password !== $_POST["confirm_password"]) {
-        echo "<script>alert('Passwords do not match.')</script>";
-        echo "<script>window.location = 'SignUp.html'</script>";
-        exit(); 
-    }
-
     $salt = generateSalt();
     $hashed_password = hashPassword($password, $salt);
 
-    $insert_query = "INSERT INTO Cust (Username, SaltPwd, Password, CustName, Sex, Address, Tel) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $insert_query = "INSERT INTO Cust (Username, SaltPwd, Password, CustName, Address, Tel) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $insert_query);
-    mysqli_stmt_bind_param($stmt, "sssssss", $Username, $salt, $hashed_password, $CustName, $Sex, $Address, $Tel);
+    mysqli_stmt_bind_param($stmt, "ssssss", $Username, $salt, $hashed_password, $CustName, $Address, $Tel);
     if (mysqli_stmt_execute($stmt)) {
         header("Location: login.html");
         exit();

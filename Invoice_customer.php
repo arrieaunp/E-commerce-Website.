@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['order_id'])) {
+if (!isset($_SESSION['OrderId'])) {
     header("Location: Invoice_customer.php");
     exit();
 }?>
@@ -23,20 +23,20 @@ if (!isset($_SESSION['order_id'])) {
 <div class="container">
     <center>
         <h1>Receipt</h1>
-        <?php if(isset($_SESSION["order_id"])): ?>
-            <p>รหัสการสั่งซื้อ: <?php echo $_SESSION["order_id"]; ?></p>
+        <?php if(isset($_SESSION["OrderId"])): ?>
+            <p>รหัสการสั่งซื้อ: <?php echo $_SESSION["OrderId"]; ?></p>
         <?php endif; ?>
-        <?php if(isset($_SESSION["order_date"])): ?>
-            <p>วันที่การสั่งซื้อ: <?php echo $_SESSION["order_date"]; ?></p>
+        <?php if(isset($_SESSION["OrderDate"])): ?>
+            <p>วันที่การสั่งซื้อ: <?php echo $_SESSION["OrderDate"]; ?></p>
         <?php endif; ?>
-        <?php if(isset($_SESSION["custNo"])): ?>
-            <p>รหัสลูกค้า: <?php echo $_SESSION["custNo"]; ?></p>
+        <?php if(isset($_SESSION["CustNo"])): ?>
+            <p>รหัสลูกค้า: <?php echo $_SESSION["CustNo"]; ?></p>
         <?php endif; ?>
-        <?php if(isset($_SESSION["custName"])): ?>
-            <p>ชื่อ: <?php echo $_SESSION["custName"]; ?></p>
+        <?php if(isset($_SESSION["CustName"])): ?>
+            <p>ชื่อ: <?php echo $_SESSION["CustName"]; ?></p>
         <?php endif; ?>
-        <?php if(isset($_SESSION["address"])): ?>
-            <p>ที่อยู่: <?php echo $_SESSION["address"]; ?></p>
+        <?php if(isset($_SESSION["Address"])): ?>
+            <p>ที่อยู่: <?php echo $_SESSION["Address"]; ?></p>
         <?php endif; ?>
 
         <table>
@@ -64,11 +64,11 @@ if (!isset($_SESSION['order_id'])) {
 
             <tr class="total">
                 <td colspan="4">ยอดรวมการสั่งซื้อ</td>
-                <td><?php echo $_SESSION["order_total"] ?? ''; ?></td>
+                <td><?php echo $_SESSION["OrderTotal"] ?? ''; ?></td>
             </tr>
         </table>
         <center>
-            <a href="Menu.php">
+            <a href="index.php">
                 <button onclick="clearSession()">Back to Order!</button>
             </a>
         </center>
@@ -86,7 +86,7 @@ if (!isset($_SESSION['order_id'])) {
 
 <script>
     function clearSession() {
-    $order_related_keys = ['order_id', 'order_date', 'custName', 'address', 'product_details', 'order_total'];
+    $order_related_keys = ['OrderId', 'OrderDate', 'CustName', 'Address', 'ProductDetails', 'OrderTotal'];
     foreach ($order_related_keys); {
         if (isset($_SESSION[$key])) {
         unset($_SESSION[$key]);

@@ -1,27 +1,65 @@
 <?php
+ob_start();
 include "../db_config.php";
+include "sidenav.php";
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
-    $daily_query = "SELECT DATE(Order_date) as date, SUM(Order_total) as total_amount FROM OrderHeader WHERE Order_date BETWEEN '$start_date' AND '$end_date' GROUP BY DATE(Order_date)";
-    $weekly_query = "SELECT YEAR(Order_date) AS year, WEEK(Order_date) AS week, SUM(Order_total) as total_amount FROM OrderHeader WHERE Order_date BETWEEN '$start_date' AND '$end_date' GROUP BY YEAR(Order_date), WEEK(Order_date)";
-    $monthly_query = "SELECT YEAR(Order_date) AS year, MONTH(Order_date) AS month, SUM(Order_total) as total_amount FROM OrderHeader WHERE Order_date BETWEEN '$start_date' AND '$end_date' GROUP BY YEAR(Order_date), MONTH(Order_date)";
-    $daily_result = mysqli_query($conn, $daily_query);
-    $weekly_result = mysqli_query($conn, $weekly_query);
-    $monthly_result = mysqli_query($conn, $monthly_query);
 
     //Top selling
-    $product_sales_query = "SELECT od.ProductCode, s.ProductName, SUM(od.Qty) AS total_quantity, SUM(od.Line_total) AS total_sales 
+    $product_sales_query = "SELECT od.ProductCode, s.ProductName, SUM(od.Qty) AS total_quantity, SUM(od.LineTotal) AS total_sales 
                         FROM OrderDetail od 
                         INNER JOIN Stock s ON od.ProductCode = s.ProductCode 
-                        INNER JOIN OrderHeader oh ON od.Order_id = oh.Order_id 
-                        WHERE oh.Order_date BETWEEN '$start_date' AND '$end_date' 
+                        INNER JOIN OrderHeader oh ON od.OrderId = oh.OrderId 
+                        WHERE oh.OrderDate BETWEEN '$start_date' AND '$end_date' 
                         GROUP BY od.ProductCode 
                         ORDER BY total_sales DESC";
     $product_sales_result = mysqli_query($conn, $product_sales_query);
 
+    // Store result in an array for later use
+    $product_sales_data = [];
+    while ($row = mysqli_fetch_assoc($product_sales_result)) {
+        $product_sales_data[] = $row;
+    }
 }
+
+function generatePDF($data, $start_date, $end_date) {
+    require_once('vendor/TCPDF-main/tcpdf.php');
+    $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetTitle('Product Sales Report');
+    $pdf->SetSubject('Product Sales Report');
+    $pdf->SetKeywords('TCPDF, PDF, Product Sales, Report');
+
+    $pdf->AddPage();
+    $pdf->SetFont('thsarabun', '', 12);
+
+    $html = '<h2>Product Sales Report</h2>';
+    $html .= '<p>Start Date: ' . $start_date . '</p>';
+    $html .= '<p>End Date: ' . $end_date . '</p>';
+    $html .= '<table border="1">';
+    $html .= '<tr><th>Product Code</th><th>Product Name</th><th>Total Quantity Sold</th><th>Total Sales</th></tr>';
+
+    // Add data rows
+    foreach ($data as $row) {
+        $html .= '<tr>';
+        $html .= '<td>' . $row['ProductCode'] . '</td>';
+        $html .= '<td>' . $row['ProductName'] . '</td>';
+        $html .= '<td>' . $row['total_quantity'] . '</td>';
+        $html .= '<td>' . $row['total_sales'] . '</td>';
+        $html .= '</tr>';
+    }
+
+    $html .= '</table>';
+
+    $pdf->writeHTML($html, true, false, true, false, '');
+    ob_end_clean();
+    $pdf->Output('product_sales_report.pdf', 'I');
+    exit;
+};
 ?>
 
 <!doctype html>
@@ -44,8 +82,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </ul>
     </header>
 
-    <?php include "sidenav.php"; ?>
-
     <main role="main">
         <section class="panel important">
             <h2>Product Sales Report</h2>
@@ -56,29 +92,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="date" id="end_date" name="end_date" required>
                 <input type="submit" value="Generate Report">
             </form>
-            <?php if ($_SERVER["REQUEST_METHOD"] == "POST") : ?>
-            <h3>Product Sales </h3>
-            <table>
-                <tr>
-                    <th>Product Code</th>
-                    <th>Product Name</th>
-                    <th>Total Quantity Sold</th>
-                    <th>Total Sales</th>
-                </tr>
-                <?php while ($row = mysqli_fetch_assoc($product_sales_result)) : ?>
+<?php if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($product_sales_data)) : ?>
+                <h3>Product Sales</h3>
+                <table>
                     <tr>
-                        <td><?php echo $row['ProductCode']; ?></td>
-                        <td><?php echo $row['ProductName']; ?></td>
-                        <td><?php echo $row['total_quantity']; ?></td>
-                        <td><?php echo $row['total_sales']; ?></td>
+                        <th>Product Code</th>
+                        <th>Product Name</th>
+                        <th>Total Quantity Sold</th>
+                        <th>Total Sales</th>
                     </tr>
-                <?php endwhile; ?>
-            </table>
-        <?php endif; ?>
-
+                    <?php foreach ($product_sales_data as $row) : ?>
+                        <tr>
+                            <td><?php echo $row['ProductCode']; ?></td>
+                            <td><?php echo $row['ProductName']; ?></td>
+                            <td><?php echo $row['total_quantity']; ?></td>
+                            <td><?php echo $row['total_sales']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <input type="hidden" name="start_date" value="<?php echo $start_date; ?>">
+                    <input type="hidden" name="end_date" value="<?php echo $end_date; ?>">
+                    <input type="submit" name="generate_pdf" value="Generate PDF">
+                </form>
+            <?php endif; ?>
         </section>
-
     </main>
 </body>
-
 </html>
+
+<?php
+// Check if the Generate PDF button is clicked
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['generate_pdf']) && !empty($product_sales_data)) {
+    generatePDF($product_sales_data, $start_date, $end_date);
+}
+?>

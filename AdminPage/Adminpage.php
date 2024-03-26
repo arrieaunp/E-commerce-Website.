@@ -1,7 +1,8 @@
 <?php
-include "../db_config.php";
-
 session_start();
+include "../db_config.php";
+include "sidenav.php";
+
 if (!isset($_SESSION["admin"]) || !$_SESSION["admin"]) {
     header("Location: ../login.html");
     exit();
@@ -31,18 +32,33 @@ $result = mysqli_query($conn, $query);
   </ul>
 </header>
 
-<?php include "sidenav.php"; ?>
-
 <main role="main">  
-  <section class="panel important">
+    <section class="panel important">
             <h2>Income Summary</h2>
             <canvas id="incomeChart" width="800" height="400"></canvas>
-        </section>
+    </section>
 
-  
-  <section class="panel important">
+    <section class="panel important">
     <h2>Order Recents</h2>
-    <?php if (mysqli_num_rows($result) > 0): ?>
+
+    <!-- search bar -->
+    <form method="GET" action="Adminpage.php" class="search-form">
+      <input type="text" name="search" placeholder="ค้นหา..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+      <button type="submit">ค้นหา</button>
+    </form>
+
+    <?php
+    if(isset($_GET['search'])) {
+      $search = mysqli_real_escape_string($conn, $_GET['search']);
+      $query = "SELECT * FROM `OrderHeader` WHERE `OrderId` LIKE '%$search%' OR OrderDate LIKE '%$search%' OR CustName LIKE '%$search%' OR Address LIKE '%$search%'";
+      $result = mysqli_query($conn, $query);
+    } else {
+      $result = mysqli_query($conn, "SELECT * FROM OrderHeader ORDER BY OrderId DESC");
+    }
+    ?>
+
+    <?php 
+    if (mysqli_num_rows($result) > 0): ?>
             <table>
                 <tr>
                     <th>Order ID</th>
@@ -52,7 +68,6 @@ $result = mysqli_query($conn, $query);
                     <th>Status</th>
                     <th>Total</th>
                     <th></th>
-                    <!-- <th>Invoice</th> -->
                 </tr>
                 <?php while ($row = mysqli_fetch_assoc($result)): ?>
                     <tr>
@@ -64,9 +79,8 @@ $result = mysqli_query($conn, $query);
                         <td><?php echo $row['OrderTotal']; ?></td>
                         <td>
                             <a href='edit_order.php?id=<?php echo $row['OrderId']; ?>' class="btn btn-edit">Edit</a>
-                            <a href='delete_order.php?id=<?php echo $row['OrderId']; ?>' class="btn btn-delete">Delete</a>
+                            <a href='delete_order.php?id=<?php echo $row['OrderId']; ?>' class="btn btn-delete">Cancel</a>
                         </td>
-                        <!-- <td><a herf='../Invoice_customer.php'><button>Invoice</button></a></td> -->
                     </tr>
                 <?php endwhile; ?>
             </table>
@@ -74,19 +88,16 @@ $result = mysqli_query($conn, $query);
             <p>No orders found.</p>
         <?php endif; ?>
   </section>
-
 </main>
 <script>
-        <?php
-        include "../db_config.php";
+    <?php
         $query = "SELECT DATE(OrderDate) as order_date, SUM(OrderTotal) as total_amount FROM OrderHeader GROUP BY DATE(OrderDate)";
         $result = mysqli_query($conn, $query);
         $data = array();
         while ($row = mysqli_fetch_assoc($result)) {
             $data[$row['order_date']] = $row['total_amount'];
         }
-        ?>
-
+    ?>
         const labels = <?php echo json_encode(array_keys($data)); ?>;
         const data = {
             labels: labels,
@@ -108,5 +119,5 @@ $result = mysqli_query($conn, $query);
             document.getElementById('incomeChart'),
             config
         );
-    </script>
+</script>
 </html>

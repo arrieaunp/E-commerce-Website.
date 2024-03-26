@@ -5,13 +5,12 @@ if (!isset($_SESSION["CustNo"])) {
     header("Location: login.html");
     exit();
 }
-
-$conn = mysqli_connect("localhost", "root", "", "mydb");
+include "db_config.php";
 
 if (isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
 
-    $query = "SELECT * FROM Order_detail WHERE Order_id = '$order_id'";
+    $query = "SELECT * FROM OrderDetail WHERE OrderId = '$order_id'";
     $result = mysqli_query($conn, $query);
 } else {
     header("Location: order_history.php");
@@ -24,6 +23,8 @@ if (isset($_GET['order_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Styles/order_history.css">
+
     <title>Order Details</title>
 </head>
 <body>
@@ -49,7 +50,7 @@ if (isset($_GET['order_id'])) {
                 <td><?php echo $row['ProductName']; ?></td>
                 <td><?php echo $row['PricePerUnit']; ?></td>
                 <td><?php echo $row['Qty']; ?></td>
-                <td><?php echo $row['Line_total']; ?></td>
+                <td><?php echo $row['LineTotal']; ?></td>
             </tr>
             <?php
         }

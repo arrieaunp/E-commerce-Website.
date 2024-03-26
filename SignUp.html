@@ -1,70 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html> 
+<html lang="en"> 
+
+<head> 
+	<meta charset="UTF-8"> 
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link rel="stylesheet" href="Styles/signup.css">
-    <title>Sign Up</title>
-</head>
-<body>
-    <div class="wrapper">
-       <form action="process_signup.php" method="post">
-        <h2>Sign Up</h2>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
 
-        <div class="input-box">
-            <input type="text" name="Username" placeholder="Username" required>
-        </div>
+	<title>SignUp</title> 
+</head> 
 
-        <div class="input-box">
-            <input type="password" name="password" placeholder="Password" required>
-        </div>
+<body> 
+	<div class="container"> 
+		<h3>Signup</h3> 
+		<form action="process_signup.php" method="post"> 
+			<input type="text" id="username" name="Username" placeholder="Username" required> 
 
-        <div class="input-box">
-            <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
-        </div>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <i class="bi bi-eye-slash" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
 
-        <div>
-          <p>
-            * Min. 8 characters <br>
-            * Include uppercase letter<br>
-            * Include lowercase letter<br>
-            * Include number<br>
-            * Include a special character: #.-?!@$%^&*<br>
-            * Does not contain consecutive repeated characters (e.g., 'aaa') <br>
-        </p>  
-        </div>
-        
-        <br>
-        <div class="input-box">
-            Name :
-            <input type="text" name="CustName" placeholder="Name" required>
-        </div>
+			<div id="password-message"> 
+				<h3>Password must contain:</h3> 
+				<p class="password-message-item invalid">At least 
+					<b>one lowercase letter</b> 
+				</p> 
+				<p class="password-message-item invalid">At least 
+					<b>one uppercase letter</b> 
+				</p> 
+				<p class="password-message-item invalid">At least 
+					<b>one number</b> 
+				</p> 
+				<p class="password-message-item invalid">Minimum 
+					<b>8 characters</b> 
+				</p>
+                <p class="password-message-item invalid">At least  
+					<b>1 spacial characters</b> 
+				</p>
+			</div> 
 
-        <div class="input-box">
-            Address :
-            <input type="text" name="Address" placeholder="Address" required>
-        </div>
+            <input type="password" id="password_confirm" name="password_confirm" placeholder="Confirm Password" required>
+            <i class="bi bi-eye-slash" id="togglePasswordCF" style="margin-left: -30px; cursor: pointer;"></i>
 
-        <div class="input-box">
-            Telephone :
-            <input type="text" name="Tel" placeholder="Tel" required>
-        </div>
-                    <br>
-            Sex : <br>
-            <input type='Radio' Name = 'Sex' value= 'M'> Male
-            <input type='Radio' Name = 'Sex' value= 'F' > Female
             <br>
+            <input type="text" name="CustName" placeholder="Name" required>
+            <br>
+            <input type="text" name="Address" placeholder="Address" required>
+            <br>
+            <input type="text" name="Tel" placeholder="Tel" required>
+            <br>
+			Sex : 
+			<br>
+            <input type='Radio' id="Sex_M" Name = 'Sex' value= 'M'> 
+			<label for="Sex_M">Male</label><br>
+            <input type='Radio' id="Sex_F" Name = 'Sex' value= 'F' > 
+			<label for="Sex_F">Female</label><br>
+			
+			<input type="submit" value="Submit"> 
+		</form> 
+	</div>             
+	<script src="script.js"></script> 
 
-        <br>
-        <div class="input-box button">
-            <input type="Submit" value="Sign Up">
-        </div>
-        <div class="login-link">
-            <a href="login.html"> Have account ? </a> 
-        </div>
+</body> 
 
-    </form> 
-    </div>
-    
-</body>
 </html>

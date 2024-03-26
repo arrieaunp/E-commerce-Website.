@@ -1,9 +1,9 @@
 <?php
 session_start();
+include "../db_config.php";
 
 // Check if the user is logged in as admin
 if (!isset($_SESSION["admin"]) || $_SESSION["admin"] !== true) {
-    // Redirect to the login page if not logged in as admin
     header("Location: login.html");
     exit();
 }
@@ -14,21 +14,17 @@ if (!isset($_GET['id'])) {
     exit();
 }
 
-// Include database connection
-$conn = mysqli_connect("localhost", "root", "", "mydb");
-
-// Get the order ID from the URL
-$order_id = $_GET['id'];
+$OrderId = $_GET['id'];
 
 // Delete order details from Order_detail table
-$delete_detail_query = "DELETE FROM Order_detail WHERE Order_id = '$order_id'";
+$delete_detail_query = "DELETE FROM OrderDetail WHERE OrderId = '$OrderId'";
 if (mysqli_query($conn, $delete_detail_query)) {
     // Order details deleted successfully
     // Now delete the order from Order_header table
-    $delete_header_query = "DELETE FROM Order_header WHERE Order_id = '$order_id'";
+    $delete_header_query = "DELETE FROM OrderHeader WHERE OrderId = '$OrderId'";
     if (mysqli_query($conn, $delete_header_query)) {
         // Order deleted successfully
-        echo "Order with ID $order_id deleted successfully.";
+        echo "Order with ID $OrderId deleted successfully.";
     } else {
         echo "Error deleting order from Order_header table: " . mysqli_error($conn);
     }
