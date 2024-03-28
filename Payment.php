@@ -1,3 +1,24 @@
+<?php
+session_start();
+include "../header.php";
+include "../db_config.php";
+
+if (!isset($_SESSION["CustNo"])) {
+    header("Location: login.html");
+    exit();
+}
+
+$query = "SELECT * FROM Cust WHERE CustNo = ".$_SESSION["CustNo"];
+$result = mysqli_query($conn, $query);
+
+if (!$result || mysqli_num_rows($result) == 0) {
+    header("Location: index.php");
+    exit();
+}
+
+$row = mysqli_fetch_assoc($result);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

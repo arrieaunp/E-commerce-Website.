@@ -1,10 +1,9 @@
 <?php
-require_once('../Fullstack/vendor/autoload.php');
-
 session_start();
+require_once('vendor/autoload.php');
 
 if (isset($_POST['export_format']) && $_POST['export_format'] == 'pdf') {
-    if (!isset($_SESSION['order_id']) || !isset($_SESSION['order_date']) || !isset($_SESSION['custName']) || !isset($_SESSION['address']) || !isset($_SESSION['product_details']) || !isset($_SESSION['order_total'])) {
+    if (!isset($_SESSION['OrderId']) || !isset($_SESSION['OrderDate']) || !isset($_SESSION['CustName']) || !isset($_SESSION['Address']) || !isset($_SESSION['product_details']) || !isset($_SESSION['OrderTotal'])) {
         die('Session data is missing. Cannot generate PDF.');
     }
 
@@ -23,10 +22,10 @@ if (isset($_POST['export_format']) && $_POST['export_format'] == 'pdf') {
     $pdf->SetFont('thsarabun', '', 12);
 
     $html = '<h1>Invoice</h1>';
-    $html .= '<p>Order ID: ' . $_SESSION["order_id"] . '</p>';
-    $html .= '<p>Order Date: ' . $_SESSION["order_date"] . '</p>';
-    $html .= '<p>Customer Name: ' . $_SESSION["custName"] . '</p>';
-    $html .= '<p>Address: ' . $_SESSION["address"] . '</p>';
+    $html .= '<p>Order ID: ' . $_SESSION["OrderId"] . '</p>';
+    $html .= '<p>Order Date: ' . $_SESSION["OrderDate"] . '</p>';
+    $html .= '<p>Customer Name: ' . $_SESSION["CustName"] . '</p>';
+    $html .= '<p>Address: ' . $_SESSION["Address"] . '</p>';
 
     $html .= '<table border="1">';
     $html .= '<tr><th>Product Code</th><th>Product Name</th><th>Unit Price</th><th>Quantity</th><th>Total Price</th></tr>';
@@ -39,7 +38,7 @@ if (isset($_POST['export_format']) && $_POST['export_format'] == 'pdf') {
         $html .= '<td>' . ($product["price"] * $product["quantity"]) . '</td>';
         $html .= '</tr>';
     }
-    $html .= '<tr><td colspan="4">Total</td><td>' . $_SESSION["order_total"] . '</td></tr>';
+    $html .= '<tr><td colspan="4">Total</td><td>' . $_SESSION["OrderTotal"] . '</td></tr>';
     $html .= '</table>';
 
     $pdf->writeHTML($html, true, false, true, false, '');
