@@ -11,37 +11,46 @@ include "header.php";
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="Styles/Checkout.css">
+  <link rel="stylesheet" href="Styles/payment.css">
 
-  <title>Checkout</title>
+  <title>Checkout and Payment</title>
 </head>
 
 <body>
   <center>
     <h1>Checkout</h1>
+    <form action="process_payment.php" method="post">
 
     <?php
     if (isset($_SESSION["CustNo"])) {
-      echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
-          "<label for='CustName'><b>ชื่อ :</b></label>",
-          "<input type='text' id='CustName' name='CustName' value='" . $_SESSION["CustName"] . "'><br>",
-          "<label for='address'><b>ที่อยู่ :</b></label>",
-          "<input type='text' id='address' name='address' value='" . $_SESSION["Address"] . "'><br>",
-          "<label for='tel'><b>เบอร์โทร :</b></label>",
-          "<input type='text' id='tel' name='tel' value='" . $_SESSION["Tel"] . "'>";
-    }else if(isset($_SESSION['google_loggedin']) == TRUE) {
-      echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
-          "<label for='CustName'><b>ชื่อ :</b></label>",
-          "<input type='text' id='CustName' name='CustName' value='" . $_SESSION['google_name'] . "'><br>",
-          "<label for='address'><b>ที่อยู่ :</b></label>",
-          "<input type='text' id='address' name='address'><br>",
-          "<label for='tel'><b>เบอร์โทร :</b></label>",
-          "<input type='text' id='tel' name='tel'>";
-  }
-   else {
-      echo "<p>กรุณาทำการ login ก่อนทำการ Checkout</p>";
-      exit();
-  }      
-    if (!empty($_SESSION["cart"])) {
+        echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
+            "<label for='CustName'><b>ชื่อ :</b></label>",
+            "<input type='text' id='CustName' name='CustName' value='" . $_SESSION["CustName"] . "'><br>",
+            "<label for='address'><b>ที่อยู่ :</b></label>",
+            "<input type='text' id='address' name='address' value='" . $_SESSION["Address"] . "'><br>",
+            "<label for='tel'><b>เบอร์โทร :</b></label>",
+            "<input type='text' id='tel' name='tel' value='" . $_SESSION["Tel"] . "'>";
+    } else if (isset($_SESSION['google_loggedin']) == TRUE) {
+        echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
+            "<label for='CustName'><b>ชื่อ :</b></label>",
+            "<input type='text' id='CustName' name='CustName' value='" . $_SESSION['google_name'] . "'><br>",
+            "<label for='address'><b>ที่อยู่ :</b></label>",
+            "<input type='text' id='address' name='address'><br>",
+            "<label for='tel'><b>เบอร์โทร :</b></label>",
+            "<input type='text' id='tel' name='tel'>";
+    } else {
+        echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
+            "<label for='CustName'><b>ชื่อ :</b></label>",
+            "<input type='text' id='CustName' name='CustName'><br>",
+            "<label for='Address'><b>ที่อยู่ :</b></label>",
+            "<input type='text' id='Address' name='Address'><br>",
+            "<label for='tel'><b>เบอร์โทร :</b></label>",
+            "<input type='text' id='tel' name='tel'>";
+    }
+    ?>
+
+    <?php
+  if (!empty($_SESSION["cart"])) {
       echo "<h2>รายการสินค้าในตะกร้า</h2>";
       echo "<table>",
         "<tr>",
@@ -76,11 +85,52 @@ include "header.php";
       echo "<p>ไม่มีสินค้าในตะกร้า</p>";
     }
     ?>
+    
+<div class="payment-container">
+        <h1>วิธีการชำระเงิน</h1>
 
-    <form action="Payment.php" method="post">
+            <div class="payment-method">
+                <input type="radio" id="pay_now" name="payment_method" value="pay_now" onclick="toggleBankOptions()">
+                <label for="pay_now">Mobile Banking</label><br>
+                <div id="bank-options" style="display: none;">
+                    <div class="bank-option">
+                        <input type="checkbox" name="bank_option" value="kbank">
+                        <img class="icon" src="image/kplus.png" alt="KPlus Logo"> K PLUS<br>
+                    </div>
+                    <div class="bank-option">
+                        <input type="checkbox" name="bank_option" value="scb">
+                        <img class="icon" src="image/scb.png" alt="SCB Logo"> SCB Easy<br>
+                    </div>
+                    <div class="bank-option">
+                        <input type="checkbox" name="bank_option" value="bangkok">
+                        <img class="icon" src="image/bkk.avif" alt="bkk Logo"> Bangkok Bank Mobile Banking<br>
+                    </div>
+                    <div class="bank-option">
+                        <input type="checkbox" name="bank_option" value="krungth">
+                        <img class="icon" src="image/Krungth.jpeg" alt="KrungTH Logo"> Krungthai NEXT<br>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-method">
+                <input type="radio" id="pay_later" name="payment_method" value="pay_later">
+                <label for="pay_later">เก็บเงินปลายทาง</label><br><br>
+            </div>
     <button type="submit">Check out</button>
-    </form>
 
+    </div>
   </center>
+</form>
+  <script>
+        function toggleBankOptions() {
+            var bankOptions = document.getElementById("bank-options");
+            if (document.getElementById("pay_now").checked) {
+                bankOptions.style.display = "block";
+            } else {
+                bankOptions.style.display = "none";
+            }
+        }
+    </script>
+
 </body>
 </html>

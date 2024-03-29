@@ -4,14 +4,23 @@ session_start();
 include "header.php";
 include "db_config.php";
 
-if (!isset($_SESSION["CustNo"])) {
-    header("Location: login.html");
-    exit();
+$CustNo = null; 
+
+if (isset($_SESSION["CustNo"]) && $_SESSION["CustNo"] !== '') {
+    $CustNo = $_SESSION["CustNo"];
+    $CustName = $_SESSION["CustName"];
+    $Address = $_SESSION["Address"];
+} else {
+    $CustName = $_POST["CustName"] ?? "";
+    $Address = $_POST["Address"] ?? "";
 }
 
-$CustNo = $_SESSION["CustNo"];
-$CustName = $_SESSION["CustName"];
-$Address = $_SESSION["Address"];
+// Debugging statements to check the value of $CustNo
+echo "CustNo value before query execution: " . $CustNo;
+
+// Ensure CustNo is not an empty string
+$CustNo = ($CustNo === '') ? null : $CustNo;
+
 
 $payment_method = $_POST["payment_method"];
 if ($payment_method == "pay_now") {
@@ -20,7 +29,7 @@ if ($payment_method == "pay_now") {
     $order_status = "Pending";
 }
 //date
-$order_date = date("Y-m-d H:i:s");
+$order_date = date('Y-m-d', strtotime($order_date)); // Format the date as YYYY-MM-DD
 
 //total
 $total = 0;
@@ -50,9 +59,14 @@ if ($row["max_id"] == NULL) {
 }
 
 // บันทึกข้อมูลการชำระเงินลงใน OrderHeader
-$query = "INSERT INTO OrderHeader (OrderId, OrderDate, CustNo, CustName, Address, OrderStatus, OrderTotal) 
-          VALUES ('$order_id', '$order_date', '$CustNo', '$CustName', '$Address', '$order_status', $total)";
-mysqli_query($conn, $query);
+$query = "INSERT INTO OrderHeader (OrderId, OrderDate, CustNo, CustName, Address, OrderStatus, OrderTotal) VALUES (?, ?, ?, ?, ?, ?, ?)";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "sssssss", $order_id, $order_date, $CustNo, $CustName, $Address, $order_status, $total);
+
+// Execute the statement
+if (!mysqli_stmt_execute($stmt)) {
+    echo "Error executing query: " . mysqli_stmt_error($stmt);
+}
 
 // บันทึกข้อมูลสินค้าในตะกร้าลงใน OrderDetail
 foreach ($product_details as $product) {
