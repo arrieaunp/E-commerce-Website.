@@ -38,6 +38,9 @@ if (!isset($_SESSION['OrderId'])) {
         <?php if(isset($_SESSION["Address"])): ?>
             <p>ที่อยู่: <?php echo $_SESSION["Address"]; ?></p>
         <?php endif; ?>
+        <?php if(isset($_SESSION["Tel"])): ?>
+            <p>เบอร์โทรศัพท์: <?php echo $_SESSION["Tel"]; ?></p>
+        <?php endif; ?>
 
         <table>
             <tr>

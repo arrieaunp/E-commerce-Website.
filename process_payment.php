@@ -8,11 +8,13 @@ $CustNo = null;
 
 if (isset($_SESSION["CustNo"]) && $_SESSION["CustNo"] !== '') {
     $CustNo = $_SESSION["CustNo"];
-    $CustName = $_SESSION["CustName"];
-    $Address = $_SESSION["Address"];
+    $CustName = $_POST["CustName"];
+    $Address = $_POST["Address"];
+    $Tel = $_POST["Tel"];
 } else {
     $CustName = $_POST["CustName"] ?? "";
     $Address = $_POST["Address"] ?? "";
+    $Tel = $_POST["Tel"];
 }
 
 // Debugging statements to check the value of $CustNo
@@ -89,6 +91,7 @@ $_SESSION["OrderDate"] = $order_date;
 $_SESSION["CustNo"] = $CustNo;
 $_SESSION["CustName"] = $CustName;
 $_SESSION["Address"] = $Address;
+$_SESSION["Tel"] = $Tel;
 $_SESSION["OrderTotal"] = $total;
 $_SESSION["product_details"] = $product_details;
 header("Location: Invoice_customer.php");

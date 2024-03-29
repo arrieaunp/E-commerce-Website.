@@ -26,26 +26,26 @@ include "header.php";
         echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
             "<label for='CustName'><b>ชื่อ :</b></label>",
             "<input type='text' id='CustName' name='CustName' value='" . $_SESSION["CustName"] . "'><br>",
-            "<label for='address'><b>ที่อยู่ :</b></label>",
-            "<input type='text' id='address' name='address' value='" . $_SESSION["Address"] . "'><br>",
-            "<label for='tel'><b>เบอร์โทร :</b></label>",
-            "<input type='text' id='tel' name='tel' value='" . $_SESSION["Tel"] . "'>";
+            "<label for='Address'><b>ที่อยู่ :</b></label>",
+            "<input type='text' id='Address' name='Address' value='" . $_SESSION["Address"] . "'><br>",
+            "<label for='Tel'><b>เบอร์โทร :</b></label>",
+            "<input type='text' id='Tel' name='Tel' value='" . $_SESSION["Tel"] . "'>";
     } else if (isset($_SESSION['google_loggedin']) == TRUE) {
         echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
             "<label for='CustName'><b>ชื่อ :</b></label>",
             "<input type='text' id='CustName' name='CustName' value='" . $_SESSION['google_name'] . "'><br>",
-            "<label for='address'><b>ที่อยู่ :</b></label>",
-            "<input type='text' id='address' name='address'><br>",
-            "<label for='tel'><b>เบอร์โทร :</b></label>",
-            "<input type='text' id='tel' name='tel'>";
+            "<label for='Address'><b>ที่อยู่ :</b></label>",
+            "<input type='text' id='Address' name='Address'><br>",
+            "<label for='Tel'><b>เบอร์โทร :</b></label>",
+            "<input type='text' id='Tel' name='Tel'>";
     } else {
         echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
             "<label for='CustName'><b>ชื่อ :</b></label>",
             "<input type='text' id='CustName' name='CustName'><br>",
             "<label for='Address'><b>ที่อยู่ :</b></label>",
             "<input type='text' id='Address' name='Address'><br>",
-            "<label for='tel'><b>เบอร์โทร :</b></label>",
-            "<input type='text' id='tel' name='tel'>";
+            "<label for='Tel'><b>เบอร์โทร :</b></label>",
+            "<input type='text' id='Tel' name='Tel'>";
     }
     ?>
 
