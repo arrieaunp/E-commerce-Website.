@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = mysqli_fetch_assoc($result);
         
         $_SESSION["CustNo"] = $row["CustNo"];
+        $_SESSION["Username"] = $row["Username"];
         $_SESSION["CustName"] = $row["CustName"];
         $_SESSION["Address"] = $row["Address"];
         $_SESSION["Tel"] = $row["Tel"];

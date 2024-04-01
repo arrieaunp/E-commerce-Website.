@@ -16,7 +16,6 @@ include "db_config.php";
 
 <body>
   <center>
-    <h1>รายการสินค้า</h1>
     <form method="GET" action="index.php">
       <input type="text" name="search" placeholder="ค้นหาสินค้า..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
       <button type="submit">ค้นหา</button>

@@ -20,7 +20,7 @@ if (!isset($_SESSION['OrderId'])) {
     include "header.php";
 ?>
 
-<div class="container">
+<div class="invoice-container">
     <center>
         <h1>Receipt</h1>
         <?php if(isset($_SESSION["OrderId"])): ?>

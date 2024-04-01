@@ -19,10 +19,11 @@ include "header.php";
 <body>
   <center>
     <h1>Checkout</h1>
+    <div class="checkout-container">
     <form action="process_payment.php" method="post">
 
     <?php
-    if (isset($_SESSION["CustNo"])) {
+    if (isset($_SESSION["Username"])) {
         echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
             "<label for='CustName'><b>ชื่อ :</b></label>",
             "<input type='text' id='CustName' name='CustName' value='" . $_SESSION["CustName"] . "'><br>",
@@ -35,9 +36,9 @@ include "header.php";
             "<label for='CustName'><b>ชื่อ :</b></label>",
             "<input type='text' id='CustName' name='CustName' value='" . $_SESSION['google_name'] . "'><br>",
             "<label for='Address'><b>ที่อยู่ :</b></label>",
-            "<input type='text' id='Address' name='Address'><br>",
+            "<input type='text' id='Address' name='Address' value='" . $_SESSION["Address"] . "'><br>",
             "<label for='Tel'><b>เบอร์โทร :</b></label>",
-            "<input type='text' id='Tel' name='Tel'>";
+            "<input type='text' id='Tel' name='Tel' value='" . $_SESSION["Tel"] . "'>";
     } else {
         echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
             "<label for='CustName'><b>ชื่อ :</b></label>",
@@ -85,7 +86,8 @@ include "header.php";
       echo "<p>ไม่มีสินค้าในตะกร้า</p>";
     }
     ?>
-    
+
+    </div>
 <div class="payment-container">
         <h1>วิธีการชำระเงิน</h1>
 
