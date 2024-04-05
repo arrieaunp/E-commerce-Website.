@@ -17,12 +17,8 @@ if (isset($_SESSION["CustNo"]) && $_SESSION["CustNo"] !== '') {
     $Tel = $_POST["Tel"];
 }
 
-// Debugging statements to check the value of $CustNo
-echo "CustNo value before query execution: " . $CustNo;
-
 // Ensure CustNo is not an empty string
 $CustNo = ($CustNo === '') ? null : $CustNo;
-
 
 $payment_method = $_POST["payment_method"];
 if ($payment_method == "pay_now") {
@@ -31,7 +27,7 @@ if ($payment_method == "pay_now") {
     $order_status = "Pending";
 }
 //date
-$order_date = date('Y-m-d', strtotime($order_date)); // Format the date as YYYY-MM-DD
+$order_date = date('Y-m-d'); // Format the date as YYYY-MM-DD
 
 //total
 $total = 0;

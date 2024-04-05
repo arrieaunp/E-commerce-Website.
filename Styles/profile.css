@@ -5,7 +5,7 @@ body {
     padding: 0;
 }
 
-.container {
+.profile-container {
     max-width: 600px;
     margin: 50px auto;
     padding: 20px;
@@ -14,8 +14,12 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+h2 {
     text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
     margin-bottom: 20px;
 }
 
@@ -27,7 +31,7 @@ label {
 input[type="text"], input[type="email"], input[type="tel"] {
     width: calc(100% - 20px); /* Adjusted for padding */
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -44,5 +48,10 @@ input[type="radio"] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    display: block;
+    width: 100%;
 }
 
+.btn:hover {
+    background-color: #45a049;
+}

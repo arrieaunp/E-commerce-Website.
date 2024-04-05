@@ -19,7 +19,7 @@ require_once "db_config.php";
     include "header.php";
   ?>
 
-  <div class="container">
+  <div class="cart-container">
     <h1>Shopping Cart</h1>
     <?php
     $cart = array();
