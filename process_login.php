@@ -4,7 +4,7 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Username = mysqli_real_escape_string($conn, $_POST["Username"]);
-    $password = mysqli_real_escape_string($conn, $_POST["password"]);
+    $password = password_verify($_POST["password"], $hashed_password);
 
     if ($Username == "admin" && $password == "admin") {
         $_SESSION["admin"] = true;
@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = mysqli_fetch_assoc($result);
         
         $_SESSION["CustNo"] = $row["CustNo"];
+        $_SESSION["Username"] = $row["Username"];
         $_SESSION["CustName"] = $row["CustName"];
         $_SESSION["Address"] = $row["Address"];
         $_SESSION["Tel"] = $row["Tel"];

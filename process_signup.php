@@ -27,15 +27,6 @@ function isStrongPassword($password) {
     return true;
 }
 
-function generateSalt() {
-    return password_hash(random_bytes(10), PASSWORD_BCRYPT);
-}
-
-// Function to hash password with salt
-function hashPassword($password, $salt) {
-    return password_hash($password . $salt, PASSWORD_BCRYPT);
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Username = mysqli_real_escape_string($conn, $_POST["Username"]);
     $password = mysqli_real_escape_string($conn, $_POST["password"]);
@@ -52,12 +43,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $salt = generateSalt();
-    $hashed_password = hashPassword($password, $salt);
+    $option = ['cost' => 10];
 
-    $insert_query = "INSERT INTO Cust (Username, SaltPwd, Password, CustName, Address, Tel) VALUES (?, ?, ?, ?, ?, ?)";
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT, $option);
+
+    $insert_query = "INSERT INTO Cust (Username, Password, CustName, Address, Tel) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $insert_query);
-    mysqli_stmt_bind_param($stmt, "ssssss", $Username, $salt, $hashed_password, $CustName, $Address, $Tel);
+    mysqli_stmt_bind_param($stmt, "sssss", $Username, $hashed_password, $CustName, $Address, $Tel);
     if (mysqli_stmt_execute($stmt)) {
         header("Location: login.html");
         exit();
