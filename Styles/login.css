@@ -125,3 +125,35 @@ form .text h3 a:hover{
 .content .google-login-btn:hover .icon {
   background-color: #c63f2a;
 }
+
+.facebook-login-btn {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: #3b5998;
+  cursor: pointer;
+}
+.content .facebook-login-btn .icon {
+  display: inline-flex;
+  height: 100%;
+  padding: 15px 20px;
+  align-items: center;
+  justify-content: center;
+  background-color: #344e86;
+  margin-right: 15px;
+}
+.content .facebook-login-btn .icon svg {
+  fill: #fff;
+}
+.content .facebook-login-btn:hover {
+  background-color: #385591;
+}
+.content .facebook-login-btn:hover .icon {
+  background-color: #314a7e;
+}

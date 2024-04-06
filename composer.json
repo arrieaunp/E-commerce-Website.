@@ -4,6 +4,7 @@
         "tecnickcom/tcpdf": "^6.6",
         "vlucas/phpdotenv": "^5.6",
         "firebase/php-jwt": "^6.10",
-        "google/apiclient": "^2.15.0"
+        "google/apiclient": "^2.15.0",
+        "facebook/graph-sdk": "^5.1"
     }
 }

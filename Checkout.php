@@ -39,6 +39,14 @@ include "header.php";
             "<input type='text' id='Address' name='Address' value='" . $_SESSION["Address"] . "'><br>",
             "<label for='Tel'><b>เบอร์โทร :</b></label>",
             "<input type='text' id='Tel' name='Tel' value='" . $_SESSION["Tel"] . "'>";
+    }else if (isset($_SESSION['facebook_loggedin']) == TRUE) {
+        echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
+            "<label for='CustName'><b>ชื่อ :</b></label>",
+            "<input type='text' id='CustName' name='CustName' value='" . $_SESSION['facebook_name'] . "'><br>",
+            "<label for='Address'><b>ที่อยู่ :</b></label>",
+            "<input type='text' id='Address' name='Address' value='" . $_SESSION["Address"] . "'><br>",
+            "<label for='Tel'><b>เบอร์โทร :</b></label>",
+            "<input type='text' id='Tel' name='Tel' value='" . $_SESSION["Tel"] . "'>";
     } else {
         echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
             "<label for='CustName'><b>ชื่อ :</b></label>",
