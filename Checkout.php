@@ -11,52 +11,76 @@ include "header.php";
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="Styles/Checkout.css">
-  <link rel="stylesheet" href="Styles/payment.css">
 
   <title>Checkout and Payment</title>
 </head>
 
 <body>
-  <center>
-    <h1>Checkout</h1>
+<div class="grid-container">
+
     <div class="checkout-container">
     <form action="process_payment.php" method="post">
 
     <?php
-    if (isset($_SESSION["Username"])) {
-        echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
-            "<label for='CustName'><b>ชื่อ :</b></label>",
-            "<input type='text' id='CustName' name='CustName' value='" . $_SESSION["CustName"] . "'><br>",
-            "<label for='Address'><b>ที่อยู่ :</b></label>",
-            "<input type='text' id='Address' name='Address' value='" . $_SESSION["Address"] . "'><br>",
-            "<label for='Tel'><b>เบอร์โทร :</b></label>",
-            "<input type='text' id='Tel' name='Tel' value='" . $_SESSION["Tel"] . "'>";
-    } else if (isset($_SESSION['google_loggedin']) == TRUE) {
-        echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
-            "<label for='CustName'><b>ชื่อ :</b></label>",
-            "<input type='text' id='CustName' name='CustName' value='" . $_SESSION['google_name'] . "'><br>",
-            "<label for='Address'><b>ที่อยู่ :</b></label>",
-            "<input type='text' id='Address' name='Address' value='" . $_SESSION["Address"] . "'><br>",
-            "<label for='Tel'><b>เบอร์โทร :</b></label>",
-            "<input type='text' id='Tel' name='Tel' value='" . $_SESSION["Tel"] . "'>";
-    }else if (isset($_SESSION['facebook_loggedin']) == TRUE) {
-        echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
-            "<label for='CustName'><b>ชื่อ :</b></label>",
-            "<input type='text' id='CustName' name='CustName' value='" . $_SESSION['facebook_name'] . "'><br>",
-            "<label for='Address'><b>ที่อยู่ :</b></label>",
-            "<input type='text' id='Address' name='Address' value='" . $_SESSION["Address"] . "'><br>",
-            "<label for='Tel'><b>เบอร์โทร :</b></label>",
-            "<input type='text' id='Tel' name='Tel' value='" . $_SESSION["Tel"] . "'>";
-    } else {
-        echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
-            "<label for='CustName'><b>ชื่อ :</b></label>",
-            "<input type='text' id='CustName' name='CustName'><br>",
-            "<label for='Address'><b>ที่อยู่ :</b></label>",
-            "<input type='text' id='Address' name='Address'><br>",
-            "<label for='Tel'><b>เบอร์โทร :</b></label>",
-            "<input type='text' id='Tel' name='Tel'>";
-    }
-    ?>
+if (isset($_SESSION["Username"])) {
+    echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
+        "<div class='input-container'>
+            <label class='input-label' for='CustName'><b>ชื่อ :</b></label>
+            <input class='input-field' type='text' id='CustName' name='CustName' value='" . $_SESSION["CustName"] . "'>
+        </div>",
+        "<div class='input-container'>
+            <label class='input-label' for='Address'><b>ที่อยู่ :</b></label>
+            <input class='input-field' type='text' id='Address' name='Address' value='" . $_SESSION["Address"] . "'>
+        </div>",
+        "<div class='input-container'>
+            <label class='input-label' for='Tel'><b>เบอร์โทร :</b></label>
+            <input class='input-field' type='text' id='Tel' name='Tel' value='" . $_SESSION["Tel"] . "'>
+        </div>";
+} else if (isset($_SESSION['google_loggedin']) == TRUE) {
+    echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
+        "<div class='input-container'>
+            <label class='input-label' for='CustName'><b>ชื่อ :</b></label>
+            <input class='input-field' type='text' id='CustName' name='CustName' value='" . $_SESSION['google_name'] . "'>
+        </div>",
+        "<div class='input-container'>
+            <label class='input-label' for='Address'><b>ที่อยู่ :</b></label>
+            <input class='input-field' type='text' id='Address' name='Address' value='" . $_SESSION["Address"] . "'>
+        </div>",
+        "<div class='input-container'>
+            <label class='input-label' for='Tel'><b>เบอร์โทร :</b></label>
+            <input class='input-field' type='text' id='Tel' name='Tel' value='" . $_SESSION["Tel"] . "'>
+        </div>";
+} else if (isset($_SESSION['facebook_loggedin']) == TRUE) {
+    echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
+        "<div class='input-container'>
+            <label class='input-label' for='CustName'><b>ชื่อ :</b></label>
+            <input class='input-field' type='text' id='CustName' name='CustName' value='" . $_SESSION['facebook_name'] . "'>
+        </div>",
+        "<div class='input-container'>
+            <label class='input-label' for='Address'><b>ที่อยู่ :</b></label>
+            <input class='input-field' type='text' id='Address' name='Address' value='" . $_SESSION["Address"] . "'>
+        </div>",
+        "<div class='input-container'>
+            <label class='input-label' for='Tel'><b>เบอร์โทร :</b></label>
+            <input class='input-field' type='text' id='Tel' name='Tel' value='" . $_SESSION["Tel"] . "'>
+        </div>";
+} else {
+    echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
+        "<div class='input-container'>
+            <label class='input-label' for='CustName'><b>ชื่อ :</b></label>
+            <input class='input-field' type='text' id='CustName' name='CustName'>
+        </div>",
+        "<div class='input-container'>
+            <label class='input-label' for='Address'><b>ที่อยู่ :</b></label>
+            <input class='input-field' type='text' id='Address' name='Address'>
+        </div>",
+        "<div class='input-container'>
+            <label class='input-label' for='Tel'><b>เบอร์โทร :</b></label>
+            <input class='input-field' type='text' id='Tel' name='Tel'>
+        </div>";
+}
+?>
+
 
     <?php
   if (!empty($_SESSION["cart"])) {
@@ -94,10 +118,10 @@ include "header.php";
       echo "<p>ไม่มีสินค้าในตะกร้า</p>";
     }
     ?>
-
     </div>
+
 <div class="payment-container">
-        <h1>วิธีการชำระเงิน</h1>
+        <h2>Payment</h1>
 
             <div class="payment-method">
                 <input type="radio" id="pay_now" name="payment_method" value="pay_now" onclick="toggleBankOptions()">
@@ -126,11 +150,15 @@ include "header.php";
                 <input type="radio" id="pay_later" name="payment_method" value="pay_later">
                 <label for="pay_later">เก็บเงินปลายทาง</label><br><br>
             </div>
-    <button type="submit">Check out</button>
+            <center>
+            <button type="submit">Check out</button>
+            </center>
 
     </div>
-  </center>
+
 </form>
+</div>
+
   <script>
         function toggleBankOptions() {
             var bankOptions = document.getElementById("bank-options");
