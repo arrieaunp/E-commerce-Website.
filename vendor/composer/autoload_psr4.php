@@ -25,6 +25,7 @@ return array(
     'Google\\Auth\\' => array($vendorDir . '/google/auth/src'),
     'Google\\' => array($vendorDir . '/google/apiclient/src'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
+    'Facebook\\' => array($vendorDir . '/facebook/graph-sdk/src/Facebook'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
     'Com\\Tecnick\\Unicode\\Data\\' => array($vendorDir . '/tecnickcom/tc-lib-unicode-data/src'),
     'Com\\Tecnick\\Unicode\\' => array($vendorDir . '/tecnickcom/tc-lib-unicode/src'),

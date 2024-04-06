@@ -9,7 +9,13 @@ if(isset($_SESSION["Username"])){
     echo '
     <a href="profile.php" class="logout-btn">'.$_SESSION['google_name'].'</a>
     <a href="logout.php" class="logout-btn">ออกจากระบบ</a>';
-}  else {
+} else if(isset($_SESSION['facebook_loggedin']) == TRUE){
+    echo '
+    <a href="profile.php" class="logout-btn">'.$_SESSION['facebook_name'].'</a>
+    <a href="logout.php" class="logout-btn">ออกจากระบบ</a>';
+
+}
+  else {
     echo '
     <a href="login.html" class="login-btn">เข้าสู่ระบบ</a>
     <a href="SignUp.html" class="signup-btn">สมัครสมาชิก</a>';
