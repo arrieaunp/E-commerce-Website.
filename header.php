@@ -7,7 +7,7 @@ use Firebase\JWT\Key;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-$decoded = null; // Initialize $decoded variable
+$decoded = null;
 
 if (isset($_COOKIE['token'])) {
     $jwt = $_COOKIE['token'];
@@ -40,7 +40,11 @@ if (isset($_COOKIE['token'])) {
             <nav>
                 <ul class="nav-links">
                     <li><a href="index.php">หน้าแรก</a></li>
-                    <li><a href="Order_history.php">ประวัติการซื้อ</a></li>
+                    <?php if ($decoded && isset($decoded->data->Role) && ($decoded->data->Role == "guest")): ?>
+                        <li><a href="login.html">ประวัติการซื้อ</a></li>
+                    <?php else: ?>
+                        <li><a href="Order_history.php">ประวัติการซื้อ</a></li>
+                    <?php endif; ?>
                     <li><a href="Cart.php">ตะกร้าสินค้า</a></li>
                 </ul>
             </nav>
