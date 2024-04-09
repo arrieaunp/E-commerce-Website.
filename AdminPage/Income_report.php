@@ -29,13 +29,17 @@ function generatePDF($daily_result, $weekly_result, $monthly_result, $start_date
     $pdf->AddPage();
     $pdf->SetFont('thsarabun', '', 12);
 
-    $html = '<h2>Income Summary Report</h2>';
-    $html .= '<p>Start Date: ' . $start_date . '</p>';
-    $html .= '<p>End Date: ' . $end_date . '</p>';
+    $html = '<div style="text-align: center;">';
+    $html .= '<h3>บริษัท ตัวอย่าง จํากัด</h3>';
+    $html .= '<h3>รายงานสรุปยอดขาย</h3>';
+    $html .= '<p>ช่วงวันที่ ' . $start_date . ' ถึง ' . $end_date . '</p>';
+    $html .= '</div>';
+    $html .= '<p>พิมพ์วันที่ : ' . date("Y-m-d H:i:s") . '</p>';
+
     //Day
-    $html .= '<h3>Daily Summary Report</h3>';
+    $html .= '<h3>รายงานสรุปยอดขายประจำวัน</h3>';
     $html .= '<table border="1">';
-    $html .= '<tr><th>Order Date</th><th>Total</th></tr>';
+    $html .= '<tr><th>วันที่</th><th>ยอดขายสุทธิ</th></tr>';
     while ($row = mysqli_fetch_assoc($daily_result)) {
         $html .= '<tr>';
         $html .= '<td>' . $row['date'] . '</td>';
@@ -44,9 +48,9 @@ function generatePDF($daily_result, $weekly_result, $monthly_result, $start_date
     }
     $html .= '</table>';
     //Week
-    $html .= '<h3>Weekly Summary Report</h3>';
+    $html .= '<h3>รายงายสรุปยอดขายประจำสัปดาห์</h3>';
     $html .= '<table border="1">';
-    $html .= '<tr><th>Order Date</th><th>Total</th></tr>';
+    $html .= '<tr><th>สัปดาห์</th><th>ยอดขายสุทธิ</th></tr>';
     while ($row = mysqli_fetch_assoc($weekly_result)) {
         $html .= '<tr>';
         $html .= '<td>' . $row['week'] . '</td>';
@@ -55,9 +59,9 @@ function generatePDF($daily_result, $weekly_result, $monthly_result, $start_date
     }
     $html .= '</table>';
     //Month
-    $html .= '<h3>Monthly Summary Report</h3>';
+    $html .= '<h3>รายงายสรุปยอดขายประจำเดือน</h3>';
     $html .= '<table border="1">';
-    $html .= '<tr><th>Order Date</th><th>Total</th></tr>';
+    $html .= '<tr><th>เดือน</th><th>ยอดขายสุทธิ</th></tr>';
     while ($row = mysqli_fetch_assoc($monthly_result)) {
         $html .= '<tr>';
         $html .= '<td>' . $row['month'] . '</td>';

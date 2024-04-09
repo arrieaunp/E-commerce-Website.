@@ -37,9 +37,13 @@ function generatePDF($data, $start_date, $end_date) {
     $pdf->AddPage();
     $pdf->SetFont('thsarabun', '', 12);
 
-    $html = '<h2>Product Sales Report</h2>';
-    $html .= '<p>Start Date: ' . $start_date . '</p>';
-    $html .= '<p>End Date: ' . $end_date . '</p>';
+    $html = '<div style="text-align: center;">';
+    $html .= '<h3>บริษัท ตัวอย่าง จํากัด</h3>';
+    $html .= '<h3>รายงานสรุปการสั่งขายสินค้า (จํานวน)</h3>';
+    $html .= '<p>ช่วงวันที่ ' . $start_date . ' ถึง ' . $end_date . '</p>';
+    $html .= '</div>';
+    $html .= '<p>พิมพ์วันที่ : ' . date("Y-m-d H:i:s") . '</p>';
+
     $html .= '<table border="1">';
     $html .= '<tr><th>Product Code</th><th>Product Name</th><th>Total Quantity Sold</th><th>Total Sales</th></tr>';
 
