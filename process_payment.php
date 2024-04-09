@@ -4,18 +4,13 @@ session_start();
 include "header.php";
 include "db_config.php";
 
-$CustNo = null; 
-
 if (isset($_SESSION["CustNo"]) && $_SESSION["CustNo"] !== '') {
     $CustNo = $_SESSION["CustNo"];
-    $CustName = $_POST["CustName"];
-    $Address = $_POST["Address"];
-    $Tel = $_POST["Tel"];
-} else {
-    $CustName = $_POST["CustName"] ?? "";
-    $Address = $_POST["Address"] ?? "";
-    $Tel = $_POST["Tel"];
-}
+} 
+
+$CustName = $_POST["CustName"] ?? "";
+$Address = $_POST["Address"] ?? "";
+$Tel = $_POST["Tel"];
 
 // Ensure CustNo is not an empty string
 $CustNo = ($CustNo === '') ? null : $CustNo;

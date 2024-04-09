@@ -1,26 +1,17 @@
 <?php
 session_start();
 include "db_config.php";
+require_once 'vendor/autoload.php';
 
-// require_once 'vendor/autoload.php';
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
-// use Firebase\JWT\JWT;
+$secret_key = $_ENV['SECRETKEY'];
 
-// $secret_key = $_ENV['SECRETKEY'];
+$decoded = JWT::decode($_COOKIE['token'], new Key($secret_key, 'HS256'));
+$CustNo = $decoded->data->UserId;
 
-// $payload = array(
-//   'iat' => time(),
-//   'exp' => strtotime("+1 hour"),
-//   'data' => array(
-//     'code' => $row['ProductCode'],
-//     'name' => $row['ProductName'],
-//     'price' => $row['PricePerUnit'],
-//     'image' => $row['ProductImg'],
-//   ),
-// );
-
-// $jwt = JWT::encode($payload, $secret_key, 'HS256');
-// setcookie("cart_token", $jwt, time() + 3600, "/", "", true, true);
+$_SESSION["CustNo"] = $CustNo;
 ?>
 
 <!DOCTYPE html>
