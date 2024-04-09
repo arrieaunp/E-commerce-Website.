@@ -87,7 +87,8 @@ try {
     }
 
 } catch (Exception $e) {
-    header('Location: login.html');
+    echo "Error: " . $e->getMessage();
+    //header('Location: login.html');
     exit();
 }
 ?>

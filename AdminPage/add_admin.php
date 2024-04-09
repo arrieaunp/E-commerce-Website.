@@ -11,6 +11,7 @@ if (isset($_COOKIE['token'])) {
 
     try {
         $decoded = JWT::decode($_COOKIE['token'], new Key($secret_key, 'HS256'));
+        $CustNo = $decoded->data->UserId;
         if ($decoded->data->Role == "superadmin") {
             
         } else {
@@ -30,15 +31,16 @@ if (isset($_COOKIE['token'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $CustNo = uniqid('admin_');
     $username = mysqli_real_escape_string($conn, $_POST["username"]);
     $password = mysqli_real_escape_string($conn, $_POST["password"]);
     $role = mysqli_real_escape_string($conn, $_POST["role"]);
 
     $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
-    $query = "INSERT INTO cust (Username, Password, Role) VALUES (?, ?, ?)";
+    $query = "INSERT INTO cust (CustNo, Username, Password, Role) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sss", $username, $hashed_password, $role);
+    mysqli_stmt_bind_param($stmt, "ssss",$CustNo, $username, $hashed_password, $role);
     $result = mysqli_stmt_execute($stmt);
 
     if ($result) {
@@ -61,7 +63,7 @@ mysqli_close($conn);
 <body>
     <div class="container">
         <h2 class="title">Add Admin</h2>
-        <form action="add_admin_process.php" method="POST">
+        <form action="add_admin.php" method="POST">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>

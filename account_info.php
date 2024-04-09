@@ -24,15 +24,6 @@ if(isset($Username)){
     echo '
     <a href="profile.php" class="logout-btn">'.$Username.'</a>
     <a href="logout.php" class="logout-btn">ออกจากระบบ</a>';
-} else if(isset($_SESSION['google_loggedin']) == TRUE){
-    echo '
-    <a href="profile.php" class="logout-btn">'.$_SESSION['google_name'].'</a>
-    <a href="logout.php" class="logout-btn">ออกจากระบบ</a>';
-} else if(isset($_SESSION['facebook_loggedin']) == TRUE){
-    echo '
-    <a href="profile.php" class="logout-btn">'.$_SESSION['facebook_name'].'</a>
-    <a href="logout.php" class="logout-btn">ออกจากระบบ</a>';
-
 }
   else {
     echo '

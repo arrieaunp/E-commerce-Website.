@@ -1,6 +1,8 @@
 <?php
-session_start();
+require_once "../vendor/autoload.php";
 include "../db_config.php";
+
+use Firebase\JWT\JWT;
 
 $google_oauth_client_id = '71002881248-l6021c7r8m367v2ste3rghg4kskva1i0.apps.googleusercontent.com';
 $google_oauth_client_secret = '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';
@@ -34,17 +36,17 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
         $profile = json_decode($response, true);
         // Make sure the profile data exists
         if (isset($profile['email'])) {
+            $CustNo = uniqid('cust_');
             $Email = mysqli_real_escape_string($conn, $profile['email']);
             $query = "SELECT * FROM Cust WHERE Email = '$Email'";
             $result = mysqli_query($conn, $query);
 
             if (mysqli_num_rows($result) == 0) {
                 $CustName = mysqli_real_escape_string($conn, $profile['name']);
+                $Username = mysqli_real_escape_string($conn, $profile['name']);
 
-
-                $query = "INSERT INTO Cust (Email, CustName) 
-                          VALUES ('$Email', '$CustName')";
-
+                $Role = "google_user";
+                $query = "INSERT INTO Cust (CustNo, Role, Email, Username, CustName) VALUES ('$CustNo', '$Role', '$Email', '$Username', '$CustName')";
                 if (mysqli_query($conn, $query)) {
                     echo "เพิ่มข้อมูลลูกค้าใหม่เข้าสู่ระบบสำเร็จ";
                 } else {
@@ -52,19 +54,31 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
                 }
             }
             $row = mysqli_fetch_assoc($result);
-            $_SESSION['CustNo'] = $row['CustNo'];        
 
-            mysqli_close($conn);  
+            mysqli_close($conn);
 
             $google_name_parts = [];
             $google_name_parts[] = isset($profile['given_name']) ? preg_replace('/[^a-zA-Z0-9]/s', '', $profile['given_name']) : '';
             $google_name_parts[] = isset($profile['family_name']) ? preg_replace('/[^a-zA-Z0-9]/s', '', $profile['family_name']) : '';
-            // Authenticate the user
-            session_regenerate_id();
-            $_SESSION['google_loggedin'] = TRUE;
-            $_SESSION['google_email'] = $profile['Email'];
-            $_SESSION['google_name'] = implode(' ', $google_name_parts);
-            
+
+            // Generate JWT token
+            $payload = [
+                'iat' => time(),
+                'exp' => strtotime('+1 hour'),
+                'data' => [
+                    'UserId' => $row['CustNo'],
+                    'Role' => $row['Role'],
+                    'Email' => $profile['email'],
+                    'Username' => $profile['name'],
+                    'CustName' => $row['CustName'],
+                ]
+            ];
+            $secret_key = $_ENV['SECRETKEY'];
+            $jwt = JWT::encode($payload, $secret_key, 'HS256');
+
+            // Set JWT token in cookie
+            setcookie("token", $jwt, time() + 3600, "/", "", true, true);
+
             header('Location: ../index.php');
             exit;
         } else {
