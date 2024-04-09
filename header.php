@@ -19,10 +19,6 @@ if (isset($_COOKIE['token'])) {
         //header("Location: ../login.html");
         exit();
     }
-} else {
-    echo "Error: Token not found.";
-    //header("Location: ../login.html");
-    exit();
 }
 ?>
 <!DOCTYPE html>
