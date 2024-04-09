@@ -86,6 +86,9 @@ if (!isset($_SESSION['OrderId'])) {
     </select>
     <button type="submit">Export</button>
 </form>
+<?php
+unset($_SESSION["cart"]);
+?>
 
 <script>
     function clearSession() {

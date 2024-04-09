@@ -183,10 +183,6 @@ if (isset($_COOKIE['token'])) {
 </form>
 </div>
 
-<?php
-unset($_SESSION["cart"]);
-?>
-
   <script>
         function toggleBankOptions() {
             var bankOptions = document.getElementById("bank-options");
