@@ -1,7 +1,40 @@
 <?php
-session_start();
 include "header.php";
 include "db_config.php";
+require_once 'vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+
+function generateGuestJWT($guest_id) {
+    $payload = array(
+        'iat' => time(),
+        'exp' => strtotime("+1 hour"),
+        'data' => array(
+            'UserId' => $guest_id,
+            'Username' => "Guest",
+        ),
+    );
+
+    $secret_key = $_ENV['SECRETKEY'];
+
+    $jwt = JWT::encode($payload, $secret_key, 'HS256');
+
+    return $jwt;
+}
+
+if (!isset($_COOKIE['token'])) {
+    $guest_id = uniqid('guest_');
+    $guest_jwt = generateGuestJWT($guest_id);
+
+    setcookie("token", $guest_jwt, time() + 3600, "/", "", true, true);
+    $insert_query = "INSERT INTO Cust (CustNo) VALUES ('$guest_id')";
+    if (mysqli_query($conn, $insert_query)) {
+
+    } else {
+        echo "Error: " . $insert_query . "<br>" . mysqli_error($conn);
+    }
+    echo '<meta http-equiv="refresh" content="0">';
+}
 ?>
 
 <!DOCTYPE html>

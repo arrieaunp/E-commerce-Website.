@@ -1,6 +1,29 @@
 <?php
 session_start();
-require_once('vendor/autoload.php');
+require_once 'vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$secret_key = $_ENV['SECRETKEY'];
+
+if (!isset($_COOKIE['token'])) {
+  header('location:index.php');
+  exit();
+}
+
+try {
+    $decoded = JWT::decode($_COOKIE['token'], new Key($secret_key, 'HS256'));
+    // $CustName = $decoded->data->CustName;
+    // $Address = $decoded->data->Address;
+    // $Tel = $decoded->data->Tel;
+  } catch (Exception $e) {
+    header('location:login.html');
+    exit();
+  }
 
 if (isset($_POST['export_format']) && $_POST['export_format'] == 'pdf') {
     if (!isset($_SESSION['OrderId']) || !isset($_SESSION['OrderDate']) || !isset($_SESSION['CustName']) || !isset($_SESSION['Address']) || !isset($_SESSION['product_details']) || !isset($_SESSION['OrderTotal'])) {

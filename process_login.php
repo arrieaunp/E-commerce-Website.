@@ -1,6 +1,11 @@
 <?php
 require_once "db_config.php";
-session_start();
+require_once 'vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $Username = mysqli_real_escape_string($conn, $_POST["Username"]);
@@ -15,11 +20,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $row = mysqli_fetch_assoc($result);
 
     if (password_verify($_POST["password"], $row["Password"])) {
-      $_SESSION["CustNo"] = $row["CustNo"];
-      $_SESSION["Username"] = $row["Username"];
-      $_SESSION["CustName"] = $row["CustName"];
-      $_SESSION["Address"] = $row["Address"];
-      $_SESSION["Tel"] = $row["Tel"];
+      $payload = array(
+        'iat' => time(),
+        'exp' => strtotime("+1 hour"),
+        'data' => array(
+          'UserId' => $row['CustNo'],
+          'Username' => $row['Username'],
+          'CustName' => $row['CustName'],
+          'Address' => $row['Address'],
+          'Tel' => $row['Tel'],
+        ),
+      );
+
+      $secret_key = $_ENV['SECRETKEY'];
+
+      $jwt = JWT::encode($payload, $secret_key, 'HS256');
+      setcookie("token", $jwt, time() + 3600, "/", "", true, true);
 
       if ($row["Role"] == "admin") {
         $_SESSION["admin"] = true;
@@ -28,10 +44,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       header("Location: " . ($row["Role"] == "admin" ? "AdminPage/Adminpage.php" : "index.php"));
       exit();
     } else {
-      echo "Invalid username or password"; 
+        $error = "Invalid username or password"; 
     }
   } else {
-    echo "Invalid username or password";
+      $error = "Invalid username or password";
+  }
+
+  if($error !== '')
+  {
+    echo '<div class="alert alert-danger">'. $error . '</div>';
   }
 
   mysqli_stmt_close($stmt);

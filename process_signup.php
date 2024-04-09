@@ -1,6 +1,5 @@
 <?php
 require_once "db_config.php";
-session_start();
 
 function isStrongPassword($password) {
     $min_length = 8;

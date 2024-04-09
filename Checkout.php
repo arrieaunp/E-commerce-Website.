@@ -1,7 +1,31 @@
 <?php
 session_start();
-include "db_config.php";
 include "header.php";
+include "db_config.php";
+require_once 'vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$secret_key = $_ENV['SECRETKEY'];
+
+if (!isset($_COOKIE['token'])) {
+  header('location:index.php');
+  exit();
+}
+
+try {
+    $decoded = JWT::decode($_COOKIE['token'], new Key($secret_key, 'HS256'));
+    $CustName = $decoded->data->CustName;
+    $Address = $decoded->data->Address;
+    $Tel = $decoded->data->Tel;
+  } catch (Exception $e) {
+    header('location:login.html');
+    exit();
+  }
 ?>
 
 <!DOCTYPE html>
@@ -22,19 +46,19 @@ include "header.php";
     <form action="process_payment.php" method="post">
 
     <?php
-if (isset($_SESSION["Username"])) {
+if (isset($_COOKIE['token'])) {
     echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",
         "<div class='input-container'>
             <label class='input-label' for='CustName'><b>ชื่อ :</b></label>
-            <input class='input-field' type='text' id='CustName' name='CustName' value='" . $_SESSION["CustName"] . "'>
+            <input class='input-field' type='text' id='CustName' name='CustName' value='" . $CustName . "'>
         </div>",
         "<div class='input-container'>
             <label class='input-label' for='Address'><b>ที่อยู่ :</b></label>
-            <input class='input-field' type='text' id='Address' name='Address' value='" . $_SESSION["Address"] . "'>
+            <input class='input-field' type='text' id='Address' name='Address' value='" . $Address . "'>
         </div>",
         "<div class='input-container'>
             <label class='input-label' for='Tel'><b>เบอร์โทร :</b></label>
-            <input class='input-field' type='text' id='Tel' name='Tel' value='" . $_SESSION["Tel"] . "'>
+            <input class='input-field' type='text' id='Tel' name='Tel' value='" . $Tel . "'>
         </div>";
 } else if (isset($_SESSION['google_loggedin']) == TRUE) {
     echo "<h2>ที่อยู่สำหรับจัดส่ง</h2>",

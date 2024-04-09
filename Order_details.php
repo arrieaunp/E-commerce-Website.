@@ -1,11 +1,11 @@
 <?php
-session_start();
+include "db_config.php";
+require_once 'vendor/autoload.php';
 
-if (!isset($_SESSION["CustNo"])) {
-    header("Location: login.html");
+if (!isset($_COOKIE['token'])) {
+    header('location:index.php');
     exit();
 }
-include "db_config.php";
 
 if (isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];

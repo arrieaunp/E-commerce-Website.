@@ -2,60 +2,49 @@
 session_start();
 include "db_config.php";
 include "header.php";
+require_once 'vendor/autoload.php';
 
-if (isset($_SESSION["CustNo"])) {
-    $query = "SELECT * FROM Cust WHERE CustNo = ?";
-    $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "i", $_SESSION["CustNo"]);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-} elseif (isset($_SESSION['google_loggedin']) && $_SESSION['google_loggedin'] == TRUE) {
-    $query = "SELECT * FROM Cust WHERE Email = ?";
-    $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "s", $_SESSION["google_email"]);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+if (!isset($_COOKIE['token'])) {
+    header("Location: login.html");
+    exit();
 }
 
-$row = mysqli_fetch_assoc($result);
+$secret_key = $_ENV['SECRETKEY'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = mysqli_real_escape_string($conn, $_POST["Email"]);
-    $custName = mysqli_real_escape_string($conn, $_POST["CustName"]);
-    $sex = mysqli_real_escape_string($conn, $_POST["Sex"]);
-    $address = mysqli_real_escape_string($conn, $_POST["Address"]);
-    $tel = mysqli_real_escape_string($conn, $_POST["Tel"]);
+try {
+    $decoded = JWT::decode($_COOKIE['token'], new Key($secret_key, 'HS256'));
+    $Username = $decoded->data->Username;
 
-    $update_query = "UPDATE Cust SET Email='$email', CustName='$custName', Sex='$sex', Address='$address', Tel='$tel' WHERE CustNo=" . $_SESSION["CustNo"];
-    $update_result = mysqli_query($conn, $update_query);
-
-    if ($update_result) {
-        header("Location: profile.php");
-        exit();
-    } else {
-        $error_message = "Error: " . mysqli_error($conn);
-    }
-}
+    $query = "SELECT * FROM Cust WHERE Username = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "s", $Username);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    if (mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_assoc($result);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
     <link rel="stylesheet" href="Styles/profile.css">
 </head>
-
 <body>
     <div class="profile-container">
         <h2>Edit Profile</h2>
-        <?php if (isset($error_message)) echo "<p>$error_message</p>"; ?>
         <form action="" method="post">
             <div class="form-group">
                 <label for="Username">Username:</label>
-                <input type="text" id="Username" name="Username" value="<?php echo $row['Username']; ?>">
+                <input type="text" id="Username" name="Username" value="<?php echo $row['Username']; ?>" disabled>
             </div>
 
             <div class="form-group">
@@ -90,9 +79,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
     </div>
 </body>
-
 </html>
-
 <?php
-mysqli_close($conn);
+    } else {
+        header("Location: login.html");
+        exit();
+    }
+
+} catch (Exception $e) {
+    header('Location: login.html');
+    exit();
+}
 ?>
