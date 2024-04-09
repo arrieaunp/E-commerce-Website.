@@ -1,5 +1,33 @@
 <?php
 require_once "../db_config.php";
+require_once 'vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+if (isset($_COOKIE['token'])) {
+    $jwt = $_COOKIE['token'];
+    $secret_key = $_ENV['SECRETKEY'];
+
+    try {
+        $decoded = JWT::decode($_COOKIE['token'], new Key($secret_key, 'HS256'));
+        if ($decoded->data->Role == "superadmin") {
+            
+        } else {
+            echo "Error: You don't have permission to access this page.";
+            //header("Location: ../login.html");
+            exit();
+        }
+    } catch (Exception $e) {
+        "Error: " . $e->getMessage();
+        //header("Location: ../login.html");
+        exit();
+    }
+} else {
+    echo "Error: Token not found.";
+    //header("Location: ../login.html");
+    exit();
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = mysqli_real_escape_string($conn, $_POST["username"]);
@@ -28,7 +56,7 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Admin</title>
-    <link rel="stylesheet" href="Back_Styles/add_admin.css"> <!-- You can link your CSS file here -->
+    <link rel="stylesheet" href="Back_Styles/add_admin.css">
 </head>
 <body>
     <div class="container">

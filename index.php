@@ -12,6 +12,7 @@ function generateGuestJWT($guest_id) {
         'data' => array(
             'UserId' => $guest_id,
             'Username' => "Guest",
+            'Role' => "guest",
         ),
     );
 

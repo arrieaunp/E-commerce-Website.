@@ -1,3 +1,30 @@
+<?php
+require_once 'vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+if (isset($_COOKIE['token'])) {
+    $jwt = $_COOKIE['token'];
+
+    $secret_key = $_ENV['SECRETKEY'];
+
+    try {
+        $decoded = JWT::decode($_COOKIE['token'], new Key($secret_key, 'HS256'));
+    } catch (Exception $e) {
+        "Error: " . $e->getMessage();
+        //header("Location: ../login.html");
+        exit();
+    }
+} else {
+    echo "Error: Token not found.";
+    //header("Location: ../login.html");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +47,9 @@
                 </ul>
             </nav>
             <div class="account">
+                <?php if ($decoded->data->Role == "admin" || $decoded->data->Role == "superadmin") {
+                    echo "<a href='AdminPage/Adminpage.php'><button class='button'>Admin Page</button></a>";
+                } ?>
                 <?php include 'account_info.php'; ?>
             </div>
         </div>
