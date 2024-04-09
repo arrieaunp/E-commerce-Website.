@@ -28,12 +28,19 @@ if (!isset($_COOKIE['token'])) {
     $guest_jwt = generateGuestJWT($guest_id);
 
     setcookie("token", $guest_jwt, time() + 3600, "/", "", true, true);
-    $insert_query = "INSERT INTO Cust (CustNo, Role) VALUES ('$guest_id', 'guest')";
-    if (mysqli_query($conn, $insert_query)) {
-
-    } else {
-        echo "Error: " . $insert_query . "<br>" . mysqli_error($conn);
-    }
+    $insert_query = "INSERT INTO Cust (CustNo, Role) VALUES (?, ?)";
+    if ($stmt = mysqli_prepare($conn, $insert_query)) {
+      mysqli_stmt_bind_param($stmt, "ss", $guest_id, $role);
+      $role = 'guest';
+      if (mysqli_stmt_execute($stmt)) {
+    
+      } else {
+          echo "Error: " . mysqli_error($conn);
+      }
+      mysqli_stmt_close($stmt);
+  } else {
+      echo "Error: " . mysqli_error($conn);
+  }
     echo '<meta http-equiv="refresh" content="0">';
 }
 ?>
