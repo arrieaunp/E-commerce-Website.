@@ -38,10 +38,11 @@ if (!isset($_COOKIE['token'])) {
           echo "Error: " . mysqli_error($conn);
       }
       mysqli_stmt_close($stmt);
+      echo '<meta http-equiv="refresh" content="0">';
   } else {
       echo "Error: " . mysqli_error($conn);
   }
-    echo '<meta http-equiv="refresh" content="0">';
+    
 }
 ?>
 

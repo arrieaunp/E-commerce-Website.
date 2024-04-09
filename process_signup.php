@@ -43,13 +43,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
+    $CustNo = uniqid('cust_');
+
     $option = ['cost' => 10];
 
     $hashed_password = password_hash($password, PASSWORD_BCRYPT, $option);
 
-    $insert_query = "INSERT INTO Cust (Role, Username, Password, CustName, Address, Tel) VALUES (?, ?, ?, ?, ?, ?)";
+    $insert_query = "INSERT INTO Cust (CustNo, Role, Username, Password, CustName, Address, Tel) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $insert_query);
-    mysqli_stmt_bind_param($stmt, "ssssss",$Role , $Username, $hashed_password, $CustName, $Address, $Tel);
+    mysqli_stmt_bind_param($stmt, "sssssss",$CustNo, $Role , $Username, $hashed_password, $CustName, $Address, $Tel);
     if (mysqli_stmt_execute($stmt)) {
         header("Location: login.html");
         exit();
