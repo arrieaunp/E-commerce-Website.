@@ -27,7 +27,7 @@ if (!isset($_COOKIE['token'])) {
     $guest_jwt = generateGuestJWT($guest_id);
 
     setcookie("token", $guest_jwt, time() + 3600, "/", "", true, true);
-    $insert_query = "INSERT INTO Cust (CustNo) VALUES ('$guest_id')";
+    $insert_query = "INSERT INTO Cust (CustNo, Role) VALUES ('$guest_id', 'guest')";
     if (mysqli_query($conn, $insert_query)) {
 
     } else {

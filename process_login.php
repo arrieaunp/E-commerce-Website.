@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'exp' => strtotime("+1 hour"),
         'data' => array(
           'UserId' => $row['CustNo'],
+          'Role' => $row['Role'],
           'Username' => $row['Username'],
           'CustName' => $row['CustName'],
           'Address' => $row['Address'],
@@ -37,11 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $jwt = JWT::encode($payload, $secret_key, 'HS256');
       setcookie("token", $jwt, time() + 3600, "/", "", true, true);
 
-      if ($row["Role"] == "admin") {
-        $_SESSION["admin"] = true;
-      }
-
-      header("Location: " . ($row["Role"] == "admin" ? "AdminPage/Adminpage.php" : "index.php"));
+      header("Location: " . "index.php");
       exit();
     } else {
         $error = "Invalid username or password"; 

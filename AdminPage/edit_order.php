@@ -1,9 +1,31 @@
 <?php
-session_start();
 include "../db_config.php";
+require_once 'vendor/autoload.php';
 
-if (!isset($_SESSION["admin"]) || $_SESSION["admin"] !== true) {
-    header("Location: login.html");
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+if (isset($_COOKIE['token'])) {
+    $jwt = $_COOKIE['token'];
+    $secret_key = $_ENV['SECRETKEY'];
+
+    try {
+        $decoded = JWT::decode($_COOKIE['token'], new Key($secret_key, 'HS256'));
+        if ($decoded->data->Role == "admin" || $decoded->data->Role == "superadmin") {
+            
+        } else {
+            echo "Error: You don't have permission to access this page.";
+            //header("Location: ../login.html");
+            exit();
+        }
+    } catch (Exception $e) {
+        "Error: " . $e->getMessage();
+        //header("Location: ../login.html");
+        exit();
+    }
+} else {
+    echo "Error: Token not found.";
+    //header("Location: ../login.html");
     exit();
 }
 
@@ -73,6 +95,7 @@ mysqli_close($conn);
         <h1>Edit Order</h1>
         <?php if (isset($error_message)) echo "<p class='error'>$error_message</p>"; ?>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?id=$order_id"; ?>" method="post">
+        <?php if ($decoded->data->Role == "superadmin") { ?>
             <input type="hidden" name="OrderId" value="<?php echo $order['OrderId']; ?>">
             <label for="order_date">Order Date:</label>
             <input type="text" id="OrderDate" name="OrderDate" value="<?php echo $order['OrderDate']; ?>">
@@ -80,14 +103,21 @@ mysqli_close($conn);
             <input type="text" id="CustName" name="CustName" value="<?php echo $order['CustName']; ?>">
             <label for="Address">Address:</label>
             <input type="text" id="Address" name="Address" value="<?php echo $order['Address']; ?>">
-
             <label>Status:</label><br>
-            <input type="radio" name="status" value="Paid" <?php if ($order['OrderStatus'] == 'Paid') echo 'checked="checked"'; ?>> Paid<br>
-            <input type="radio" name="status" value="Pending" <?php if ($order['OrderStatus'] == 'Pending') echo 'checked="checked"'; ?>> Pending<br>
+                <input type="radio" name="status" value="Paid" <?php if ($order['OrderStatus'] == 'Paid') echo 'checked="checked"'; ?>> Paid<br>
+                <input type="radio" name="status" value="Pending" <?php if ($order['OrderStatus'] == 'Pending') echo 'checked="checked"'; ?>> Pending<br>
+            <?php } elseif ($decoded->data->Role == "admin") { ?>
+                <label>Status:</label><br>
+                <input type="radio" name="status" value="Paid" <?php if ($order['OrderStatus'] == 'Paid') echo 'checked="checked"'; ?>> Paid<br>
+                <input type="radio" name="status" value="Pending" <?php if ($order['OrderStatus'] == 'Pending') echo 'checked="checked"'; ?>> Pending<br>
+            <?php } ?>
             
             <button type="submit" name="update" class="btn">Update</button>
-            <button type="submit" name="delete" class="btn delete" onclick="return confirm('Are you sure you want to delete this order?')">Delete</button>
+            <?php if ($decoded->data->Role == "superadmin") { ?>
+                <button type="submit" name="delete" class="btn delete" onclick="return confirm('Are you sure you want to delete this order?')">Delete</button>
+            <?php } ?>
         </form>
     </div>
 </body>
 </html>
+

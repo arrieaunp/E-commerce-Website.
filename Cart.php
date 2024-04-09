@@ -1,6 +1,24 @@
 <?php
-session_start();
 require_once "db_config.php";
+require_once 'vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+
+$secret_key = $_ENV['SECRETKEY'];
+
+$payload = array(
+  'iat' => time(),
+  'exp' => strtotime("+1 hour"),
+  'data' => array(
+    'code' => $row['ProductCode'],
+    'name' => $row['ProductName'],
+    'price' => $row['PricePerUnit'],
+    'image' => $row['ProductImg'],
+  ),
+);
+
+$jwt = JWT::encode($payload, $secret_key, 'HS256');
+setcookie("cart_token", $jwt, time() + 3600, "/", "", true, true);
 ?>
 
 <!DOCTYPE html>

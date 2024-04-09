@@ -19,9 +19,9 @@ if (!isset($_COOKIE['token'])) {
 
 try {
     $decoded = JWT::decode($_COOKIE['token'], new Key($secret_key, 'HS256'));
-    $CustName = $decoded->data->CustName;
-    $Address = $decoded->data->Address;
-    $Tel = $decoded->data->Tel;
+    $CustName = isset($decoded->data->CustName) ? $decoded->data->CustName : "";
+    $Address = isset($decoded->data->Address) ? $decoded->data->Address : "";
+    $Tel = isset($decoded->data->Tel) ? $decoded->data->Tel : "";
   } catch (Exception $e) {
     header('location:login.html');
     exit();
@@ -182,6 +182,10 @@ if (isset($_COOKIE['token'])) {
 
 </form>
 </div>
+
+<?php
+unset($_SESSION["cart"]);
+?>
 
   <script>
         function toggleBankOptions() {

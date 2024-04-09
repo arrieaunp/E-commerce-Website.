@@ -1,3 +1,36 @@
+<?php
+require_once '../vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
+
+if (isset($_COOKIE['token'])) {
+    $jwt = $_COOKIE['token'];
+    $secret_key = $_ENV['SECRETKEY'];
+
+    try {
+        $decoded = JWT::decode($_COOKIE['token'], new Key($secret_key, 'HS256'));
+        if ($decoded->data->Role == "admin" || $decoded->data->Role == "superadmin") {
+            
+        } else {
+            echo "Error: You don't have permission to access this page.";
+            //header("Location: ../login.html");
+            exit();
+        }
+    } catch (Exception $e) {
+        "Error: " . $e->getMessage();
+        //header("Location: ../login.html");
+        exit();
+    }
+} else {
+    echo "Error: Token not found.";
+    //header("Location: ../login.html");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +72,7 @@ include "../db_config.php";
     }
 ?>
 
-<a href="http://localhost/bb/Fullstack/Stock/Insert_Stock/Insert_Stock.html" target="_blank">
+<a href="/Fullstack/Stock/Insert_Stock/Insert_Stock.html" target="_blank">
     <button class="button button1">Insert Product</button>
 </a>
 <form action="Delete_Stock/Delete_Stock.php" method="post">
@@ -64,8 +97,8 @@ while ($row = mysqli_fetch_array($cur)) {
             <td>' . $row['ProductName'] . '</td>
             <td>' . $row['PricePerUnit'] . '</td>
             <td>' . $row['StockQty'] . '</td>
-            <td><a href="http://localhost/bb/Fullstack/Stock/Update_Stock/Update_Stock.php?a1=' . $row['ProductCode'] . '">Update</a></td>
-            <td><a href="http://localhost/bb/Fullstack/Stock/Delete_Stock/Delete_Stock.php?a1=' . $row['ProductCode'] . '">Delete</a></td>
+            <td><a href="/Fullstack/Stock/Update_Stock/Update_Stock.php?a1=' . $row['ProductCode'] . '">Update</a></td>
+            <td><a href="/Fullstack/Stock/Delete_Stock/Delete_Stock.php?a1=' . $row['ProductCode'] . '">Delete</a></td>
           </tr>';
 }
     mysqli_close($conn);

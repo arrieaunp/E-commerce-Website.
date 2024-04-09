@@ -27,6 +27,7 @@ function isStrongPassword($password) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $Role = "user";
     $Username = mysqli_real_escape_string($conn, $_POST["Username"]);
     $password = mysqli_real_escape_string($conn, $_POST["password"]);
     $CustName = mysqli_real_escape_string($conn, $_POST["CustName"]);
@@ -46,9 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $hashed_password = password_hash($password, PASSWORD_BCRYPT, $option);
 
-    $insert_query = "INSERT INTO Cust (Username, Password, CustName, Address, Tel) VALUES (?, ?, ?, ?, ?)";
+    $insert_query = "INSERT INTO Cust (Role, Username, Password, CustName, Address, Tel) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $insert_query);
-    mysqli_stmt_bind_param($stmt, "sssss", $Username, $hashed_password, $CustName, $Address, $Tel);
+    mysqli_stmt_bind_param($stmt, "ssssss",$Role , $Username, $hashed_password, $CustName, $Address, $Tel);
     if (mysqli_stmt_execute($stmt)) {
         header("Location: login.html");
         exit();
