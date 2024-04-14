@@ -1,12 +1,18 @@
 <?php
 require_once "../vendor/autoload.php";
 include "../db_config.php";
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+$google_oauth_client_id = $_ENV['GOOGLE_CLIENT_ID'];
+$google_oauth_client_secret = $_ENV['GOOGLE_SECRET_ID'];
+$google_oauth_redirect_uri = $_ENV['GOOGLE_REDIRECT'];
+$google_oauth_version = 'v3';
 
 use Firebase\JWT\JWT;
 
-$google_oauth_client_id = '71002881248-l6021c7r8m367v2ste3rghg4kskva1i0.apps.googleusercontent.com';
-$google_oauth_client_secret = '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';
-$google_oauth_redirect_uri = 'http://localhost/bb/Fullstack/GoogleAuthen/google_oauth.php';
 $google_oauth_version = 'v3';
 
 if (isset($_GET['code']) && !empty($_GET['code'])) {

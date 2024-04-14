@@ -1,13 +1,17 @@
 <?php
 require_once "../vendor/autoload.php";
 include "../db_config.php";
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+$facebook_oauth_app_id = $_ENV['FACEBOOK_APP_ID'];
+$facebook_oauth_app_secret = $_ENV['FACEBOOK_APP_SECRET'];
+$facebook_oauth_redirect_uri = $_ENV['FACEBOOK_REDIRECT'];
+$facebook_oauth_version = 'v18.0';
 
 use Firebase\JWT\JWT;
-
-$facebook_oauth_app_id = '3581058565541846';
-$facebook_oauth_app_secret = '68379a0efad195ca76ab3be329a7fdbf';
-$facebook_oauth_redirect_uri = 'http://localhost/bb/Fullstack/Facebook/facebook_oauth.php';
-$facebook_oauth_version = 'v18.0';
 
 // If the captured code param exists and is valid
 if (isset($_GET['code']) && !empty($_GET['code'])) {
