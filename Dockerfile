@@ -1,6 +1,5 @@
-ARG PHP_VERSION=8
-FROM php:${PHP_VERSION}-apache
-RUN docker-php-ext-install mysqli
-RUN groupadd -r apache && useradd -r -g apache apache-user
-USER apache-user
-COPY . /var/www/html/
+FROM php:8.2-apache
+WORKDIR /var/www/html
+RUN apt-get update -y && apt-get install -y libmariadb-dev 
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+COPY ./ /var/www/html/

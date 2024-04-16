@@ -15,8 +15,9 @@
 
     <div class="container">
         <?php
+            include "db_config.php";
+
             $code = $_GET['a1'];
-            $conn = mysqli_connect("localhost", "root", "", "mydb");
             $stmt = mysqli_prepare($conn, "DELETE FROM Stock WHERE ProductCode = ?");
             mysqli_stmt_bind_param($stmt, "s", $code);
             if (!mysqli_execute($stmt)) {

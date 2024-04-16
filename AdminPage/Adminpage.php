@@ -1,6 +1,5 @@
 <?php
 include "../db_config.php";
-include "sidenav.php";
 require_once 'vendor/autoload.php';
 
 use Firebase\JWT\JWT;
@@ -32,6 +31,7 @@ if (isset($_COOKIE['token'])) {
 
 $query = "SELECT * FROM OrderHeader ORDER BY OrderId DESC";
 $result = mysqli_query($conn, $query);
+include "sidenav.php";
 ?>
 
 <!doctype html>

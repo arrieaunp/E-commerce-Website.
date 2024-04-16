@@ -1,7 +1,6 @@
 <?php
 ob_start();
 session_start();
-include "header.php";
 include "db_config.php";
 
 if (isset($_SESSION["CustNo"]) && $_SESSION["CustNo"] !== '') {
@@ -87,4 +86,5 @@ $_SESSION["OrderTotal"] = $total;
 $_SESSION["product_details"] = $product_details;
 header("Location: Invoice_customer.php");
 exit();
+include "header.php";
 ?>

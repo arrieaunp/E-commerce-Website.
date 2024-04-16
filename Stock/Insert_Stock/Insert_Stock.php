@@ -14,14 +14,13 @@
 
     <div class="container">
         <?php
+        include "db_config.php";
+        
         $a1 = $_GET['a1'];
         $a2 = $_GET['a2'];
         $a3 = $_GET['a3'];
         $a4 = $_GET['a4'];
         $a5 = $_GET['a5'];
-
-        /* get connection */
-        $conn = mysqli_connect("localhost", "root", "", "mydb");
 
         /* run insert */
         $stmt = mysqli_prepare($conn, "INSERT INTO Stock (ProductCode, ProductName, PricePerUnit, StockQty, ProductImg) VALUES (?, ?, ?, ?, ?)");

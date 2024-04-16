@@ -1,8 +1,8 @@
 <?php
+    include "db_config.php";
+    
     $a1 = $_GET['a1'];
 
-    /* get connection */
-    $conn = mysqli_connect("localhost", "root", "", "mydb");
     /* run query to get data based on a1 */
     $stmt = mysqli_query($conn, "SELECT * FROM Cust WHERE CustNo = '$a1'");
 

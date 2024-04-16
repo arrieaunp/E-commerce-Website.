@@ -1,7 +1,6 @@
 <?php
 session_start();
 include "db_config.php";
-include "header.php";
 require_once 'vendor/autoload.php';
 
 use Firebase\JWT\JWT;
@@ -91,4 +90,5 @@ try {
     //header('Location: login.html');
     exit();
 }
+include "header.php";
 ?>

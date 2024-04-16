@@ -1,5 +1,4 @@
 <?php
-include "header.php";
 include "db_config.php";
 require_once 'vendor/autoload.php';
 
@@ -28,7 +27,7 @@ if (!isset($_COOKIE['token'])) {
     $guest_jwt = generateGuestJWT($guest_id);
 
     setcookie("token", $guest_jwt, time() + 3600, "/", "", true, true);
-    $insert_query = "INSERT INTO Cust (CustNo, Role) VALUES (?, ?)";
+    $insert_query = "INSERT INTO Cust (CustNo, Role, Email) VALUES (?, ?, ' ')";
     if ($stmt = mysqli_prepare($conn, $insert_query)) {
       mysqli_stmt_bind_param($stmt, "ss", $guest_id, $role);
       $role = 'guest';
@@ -44,6 +43,8 @@ if (!isset($_COOKIE['token'])) {
   }
     
 }
+
+include "header.php";
 ?>
 
 <!DOCTYPE html>

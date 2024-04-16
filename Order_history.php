@@ -1,5 +1,4 @@
 <?php
-include "header.php";
 include "db_config.php";
 require_once 'vendor/autoload.php';
 
@@ -33,6 +32,7 @@ if (!$result) {
     die("Query failed: " . mysqli_error($conn));
 }
 
+include "header.php";
 ?>
 
 <!DOCTYPE html>

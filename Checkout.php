@@ -1,6 +1,5 @@
 <?php
 session_start();
-include "header.php";
 include "db_config.php";
 require_once 'vendor/autoload.php';
 
@@ -26,6 +25,7 @@ try {
     header('location:login.html');
     exit();
   }
+include "header.php";
 ?>
 
 <!DOCTYPE html>

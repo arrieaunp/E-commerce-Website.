@@ -77,6 +77,7 @@ include "../db_config.php";
 </a>
 <form action="Delete_Stock/Delete_Stock.php" method="post">
     <button type="submit" name="deleteSelected" class="button button1">Delete Selected</button>
+</form>
 
 <table>
     <tr>

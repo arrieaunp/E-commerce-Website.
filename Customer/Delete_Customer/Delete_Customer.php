@@ -16,8 +16,9 @@
     <div class="container">
     <!-- from Delete_Customer.html -->
     <?php
+        include "db_config.php";
+        
         $code = $_GET['a1'];
-        $conn = mysqli_connect("localhost", "root", "", "mydb");
         $stmt = mysqli_prepare($conn, "DELETE FROM Customer WHERE CustNo = ?");
         mysqli_stmt_bind_param($stmt, "s", $code);        
         /* check error */

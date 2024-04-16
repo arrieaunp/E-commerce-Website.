@@ -1,12 +1,11 @@
 <?php 
+include "db_config.php";
+
 $a1 = $_GET['a1'];
 $a2 = $_GET['a2'];
 $a3 = $_GET['a3'];
 $a4 = isset($_GET['a4']) ? intval($_GET['a4']) : 0; // หากไม่ได้รับค่าจากฟอร์มให้กำหนดเป็น 0
 $a5 = isset($_GET['a5']) ? intval($_GET['a5']) : 0; // หากไม่ได้รับค่าจากฟอร์มให้กำหนดเป็น 0
-
-/* get connection */
-$conn=mysqli_connect("localhost","root","","mydb");
 
 // Get the original StockQty from the database
 $stmt = mysqli_prepare($conn, "SELECT StockQty FROM Stock WHERE ProductCode = ?");

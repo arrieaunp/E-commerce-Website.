@@ -1,7 +1,6 @@
 <?php
 ob_start();
 include "../db_config.php";
-include "sidenav.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
@@ -75,6 +74,7 @@ function generatePDF($daily_result, $weekly_result, $monthly_result, $start_date
     $pdf->Output('income_summary_report.pdf', 'I');
     exit;
 }
+include "sidenav.php";
 ?>
 <!-- Check if the Generate PDF button is clicked -->
 <?php
